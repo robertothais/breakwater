@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+if [[ "$1" == "-i" ]]; then
+  cat <<EOF
+driver: e1000
+version: 7.3.21
+firmware-version: 1.1
+bus-info: 0000:00:03.0
+EOF
+  exit 0
+fi
+echo "[shim] ethtool $*" >&2
+exit 0

@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+# fake systemctl enough for postinst scripts
+echo "[shim] systemctl $*" >&2
+case "$1" in
+  enable|start|stop|daemon-reload|is-active|is-enabled) exit 0 ;;
+  *) exit 0 ;;
+esac

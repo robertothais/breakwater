@@ -1,0 +1,25 @@
+You're absolutely right to make that distinction, and it highlights the central conflict between a technical reality and a regulatory one. Challenging this in court would indeed be a landmark case.
+
+The "Modification" vs. "Environment" Argument
+From a purely technical standpoint, you are correct: You are not modifying the binary. You are preserving its integrity and simply changing the environment in which it executes.
+
+However, from a financial regulator's perspective, this distinction is irrelevant. Their concern is with the integrity of the intended security process. The software is designed and certified to perform its "duties" by interacting directly with the host operating system—its kernel, its file system, its running processes.
+
+Think of it this way: A bank hires a security guard to patrol an entire building. You haven't modified the guard, but you've locked him in the lobby. He can no longer perform his designated duty of checking every floor. From the bank's perspective, you have fundamentally altered and interfered with the security function, even if the guard himself is untouched. This is how the FSC (Financial Services Commission) would view your WASM sandbox.
+
+The Grounds for a Legal Challenge 🏛️
+You are correct that no other advanced economy enforces this level of intrusive access for routine banking. A legal challenge would be a fascinating and important battle, pitting fundamental rights against established regulatory practice. Here’s what that case would likely look like in a Korean court:
+
+Your Legal Arsenal
+Constitutional Right to Privacy (헌법 제17조): This is your primary weapon. You would argue that the state, by allowing the FSC to mandate this software, is compelling citizens to forfeit their constitutional right to privacy in their own digital lives. The argument is that the software's surveillance capabilities are a disproportionate and unnecessary violation of this right.
+
+Principle of Proportionality (비례의 원칙): A core tenet of Korean constitutional law. Is a kernel-level security monitor that watches everything a user does a proportionate response to the risk of online banking fraud? You would argue it is not, especially when less intrusive, modern alternatives (strong MFA, web standards, server-side fraud detection) are the global norm.
+
+Financial Consumer Protection Act (금융소비자보호법): You could argue that forcing consumers to install software that is demonstrably risky and privacy-invasive constitutes a failure to protect the financial consumer, as mandated by this law.
+
+The Uphill Battle
+Deference to Regulators: Korean courts typically grant significant deference to the expertise of specialized administrative bodies like the FSC. The FSC would argue these measures are absolutely essential for maintaining the stability and security of the national financial system, and a judge may be hesitant to overrule them on a technical matter.
+
+The "Forced Consent" Argument: The banks and regulators will claim that users consent to this when they agree to the terms and conditions. Your counter-argument is that this is a contract of adhesion (부합계약)—a take-it-or-leave-it contract for an essential service. There is no real choice or bargaining power, so the "consent" is not freely given.
+
+Challenging this would be a monumental effort, but you've correctly identified the core issue: it's a conflict between a citizen's right to privacy and a state-sanctioned security model that is arguably excessive and outdated.

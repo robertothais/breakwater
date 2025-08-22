@@ -1,0 +1,249 @@
+# ASTx Daemon Startup Process Analysis
+
+## Overview
+Comprehensive analysis of AhnLab Safe Transaction (ASTx) daemon initialization, including all startup phases, failure conditions, and system dependencies.
+
+## Startup Sequence
+
+### Phase 1: Binary and Path Setup
+```c
+// Extract daemon path from argv[0]
+strncpy(daemon_path, argv[0], 255);
+char *last_slash = strrchr(daemon_path, '/');
+if (last_slash) *last_slash = '\0';
+
+// Construct integrity check file path
+snprintf(shainfo_path, 256, "%s/shainfo", daemon_path);
+```
+
+**Purpose**: Establishes runtime environment and prepares for integrity verification.
+
+### Phase 2: File System Integrity Verification
+```c
+DAT_086255b8 = 1;  // Set integrity flag
+decryptShaInfo(shainfo_path);           // Decrypt hash database
+scanFileSystemForIntegrity(argv);       // Verify ASTx files
+```
+
+**Critical Check**: Validates all ASTx binaries and configuration files against stored hashes.
+**Failure Condition**: If integrity check fails, daemon continues but surveillance may be compromised.
+
+### Phase 3: Process Management
+```c
+// Create PID lock file
+DAT_086255d0 = open("/var/run/astx.pid", O_CREAT, 0644);
+if (DAT_086255d0 == -1) {
+    syslog(LOG_ERR, "Lock file open failed");
+    exit(1);  // FATAL: Cannot create lock file
+}
+
+// Exclusive lock to prevent multiple instances
+int lock_result = flock(DAT_086255d0, LOCK_EX | LOCK_NB);
+if (lock_result == -1) {
+    syslog(LOG_ERR, "Application is already running");
+    syslog(LOG_ERR, "if not, Try removing /var/run/astx.pid");
+    exit(1);  // FATAL: Another instance running
+}
+```
+
+**Single Instance Enforcement**: Ensures only one ASTx daemon runs system-wide.
+
+### Phase 4: Core System Initialization
+```c
+initializePaths(daemon_path);           // Set up file system paths
+initSecurityLevel();                    // Initialize crypto subsystem
+initAuthContext(auth_context);          // Set up authentication context
+registerCert();                         // Register certificates
+```
+
+**Purpose**: Establishes core runtime environment for surveillance operations.
+
+### Phase 5: Configuration Loading
+```c
+char config_loaded = readAppConfig();
+if (config_loaded != 1) {
+    syslog(LOG_ERR, "failed to read appconfig file");
+    exit(1);  // FATAL: Cannot load configuration
+}
+
+char auth_loaded = readAuthFile(auth_context);
+if (auth_loaded != 1) {
+    syslog(LOG_ERR, "failed to read auth file");
+    // NON-FATAL: Continue without auth (degraded mode)
+}
+```
+
+**Configuration Requirements**:
+- **AppConfig**: FATAL if missing - contains URLs, RSA keys, surveillance parameters
+- **Auth File**: Non-fatal if missing - daemon continues with limited functionality
+
+### Phase 6: Signal Handler Registration
+```c
+sigemptyset(&signal_mask);
+signal_handler.sa_handler = signalHandler;
+signal_handler.sa_flags = 0;
+
+sigaction(SIGTERM, &signal_handler, NULL);  // 15 - Graceful shutdown
+sigaction(SIGSEGV, &signal_handler, NULL);  // 11 - Crash handling  
+sigaction(SIGINT, &signal_handler, NULL);   // 2  - Interrupt
+signal(SIGPIPE, SIG_IGN);                   // 13 - Ignore broken pipes
+```
+
+**Graceful Shutdown**: Ensures proper cleanup on termination signals.
+
+### Phase 7: Process Priority & Memory
+```c
+DAT_0862e644 = malloc(512);  // Global buffer allocation
+if (DAT_0862e644 == NULL) {
+    syslog(LOG_ERR, "Memory allocation Failed");
+    exit(-1);  // FATAL: Out of memory
+}
+
+nice(-10);  // High priority process
+```
+
+**System Priority**: Elevates daemon to high priority for real-time surveillance.
+
+### Phase 8: IPC Message Queue Setup
+```c
+int queue_result = createMessageQueue();
+if (queue_result == 0) {
+    DAT_086255c8 = message_queue_id;  // Store global queue ID
+    syslog(LOG_INFO, "Message queue created %d", DAT_086255c8);
+} else {
+    syslog(LOG_ERR, "Message Queue Creation failed");
+    // FATAL: Cannot create IPC mechanism
+}
+```
+
+**Inter-Process Communication**: Essential for browser detection and UI coordination.
+
+### Phase 9: Post-Installation Cleanup
+```c
+// Check for installation marker
+int install_fd = open("/opt/AhnLab/ASTx/astxinst.dat", O_RDONLY);
+if (install_fd >= 0) {
+    syslog(LOG_INFO, "after install");
+    remove("/opt/AhnLab/ASTx/astxinst.dat");  // Clean up install marker
+    
+    int install_result = ASTXIP2_AddInstall();  // Register with kernel
+    if (install_result != 0) {
+        syslog(LOG_ERR, "failed to ASTXIP2_AddInstall. err [%d]", install_result);
+        // NON-FATAL: Continue without kernel integration
+    }
+    close(install_fd);
+}
+```
+
+**First-Run Setup**: Handles post-installation initialization and kernel module registration.
+
+### Phase 10: Browser Hook System Initialization
+```c
+// Initialize browser injection system
+int hook_result = ASTXIP2_Init();
+if (hook_result != 0) {
+    syslog(LOG_ERR, "failed to ASTXIP2_Init. err [%d]", hook_result);
+    // NON-FATAL: Browser surveillance disabled
+}
+
+// Start server with callback handlers
+char server_result = initializeServer(auth_context);
+if (server_result != 1) {
+    syslog(LOG_ERR, "Server Failed");
+    exit(-1);  // FATAL: Core server initialization failed
+}
+```
+
+**Surveillance Infrastructure**: Sets up browser monitoring and HTTP API server.
+
+### Phase 11: Web Context Initialization
+```c
+int web_context = initializeWebContext(auth_context);
+syslog(LOG_INFO, "We are about to wait for Handle config Msg");
+syslog(LOG_INFO, "Message id : %d", DAT_086255c8);
+```
+
+**HTTP Server**: Prepares to handle browser detection and surveillance requests.
+
+## Main Event Loop
+```c
+do {
+    // Wait for messages from browser detection system
+    ssize_t msg_size = msgrcv(DAT_086255c8, message_buffer, 1420, 20, 0);
+    if (msg_size >= 1) {
+        processIncomingMessage(message_buffer, auth_context);
+    }
+    
+    // Handle message queue errors with recovery
+    if (errno == EAGAIN || errno == EINTR) continue;  // Recoverable
+    
+    int error_code = errno;
+    int recovery_result = handleMessageError(error_code, message_buffer);
+} while (recovery_result == 0);  // Continue until fatal error
+```
+
+**Continuous Operation**: Processes browser detection events and surveillance requests.
+
+## Failure Conditions & Exit Codes
+
+### Fatal Errors (exit immediately)
+1. **Lock file creation failure** → `exit(1)`
+   - Cannot create `/var/run/astx.pid`
+   - Insufficient permissions or disk full
+
+2. **Multiple instance detection** → `exit(1)`
+   - Another ASTx daemon already running
+   - Stale lock file exists
+
+3. **AppConfig load failure** → `exit(1)`
+   - Missing or corrupted configuration
+   - Cannot decrypt configuration files
+
+4. **Memory allocation failure** → `exit(-1)`
+   - System out of memory
+   - Critical for real-time operation
+
+5. **Server initialization failure** → `exit(-1)`
+   - Cannot start HTTP API server
+   - Core surveillance system unavailable
+
+6. **Message queue fatal error** → System logs error and exits
+   - IPC system completely failed
+   - Cannot communicate with browser detection
+
+### Non-Fatal Errors (continue in degraded mode)
+1. **Auth file load failure**
+   - Surveillance continues without authentication
+   - Remote server communication disabled
+
+2. **ASTXIP2_Init failure**
+   - Browser hook system unavailable
+   - Manual browser monitoring only
+
+3. **ASTXIP2_AddInstall failure**
+   - Kernel integration unavailable
+   - User-space surveillance only
+
+## Global State Variables
+- **`DAT_086255b8`**: File integrity check status
+- **`DAT_086255c8`**: Message queue ID (IPC)
+- **`DAT_086255d0`**: Lock file descriptor
+- **`DAT_086255d4`**: Main thread ID
+- **`DAT_0862e644`**: Global message buffer
+- **`DAT_0862e6fc`**: Browser state mutex (`g_browserStateMutex`)
+
+## System Dependencies
+1. **File System**: `/opt/AhnLab/ASTx/` directory structure
+2. **Privileges**: Ability to create `/var/run/astx.pid`
+3. **IPC**: System V message queues
+4. **Network**: Access to AhnLab authentication servers
+5. **Kernel**: Optional ASTXIP2 kernel module for deep browser hooks
+
+## Security Implications
+1. **High privilege process**: Runs with elevated priority
+2. **File system monitoring**: Continuous integrity verification
+3. **Network communication**: Encrypted channels to AhnLab servers
+4. **Browser integration**: Deep hooks into browser processes
+5. **Kernel interface**: Optional kernel-level surveillance capabilities
+
+The startup process demonstrates ASTx's sophisticated architecture, with multiple fallback modes ensuring surveillance continues even when individual components fail.

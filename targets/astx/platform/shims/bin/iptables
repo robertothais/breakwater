@@ -1,0 +1,60 @@
+#!/usr/bin/env bash
+echo "[shim] iptables (fake firewall configuration)" >&2
+
+# Parse basic iptables arguments and always return success
+# This prevents the ASTx daemon from failing on firewall operations
+
+case "$1" in
+    -L|--list)
+        cat <<EOF
+Chain INPUT (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain FORWARD (policy ACCEPT)
+target     prot opt source               destination         
+
+Chain OUTPUT (policy ACCEPT)
+target     prot opt source               destination         
+EOF
+        ;;
+    -A|--append)
+        # Just acknowledge the rule was "added"
+        echo "Rule added successfully"
+        ;;
+    -D|--delete)
+        # Just acknowledge the rule was "deleted"  
+        echo "Rule deleted successfully"
+        ;;
+    -F|--flush)
+        # Just acknowledge the flush
+        echo "Chains flushed successfully"
+        ;;
+    -N|--new-chain)
+        # Acknowledge new chain creation
+        echo "Chain created successfully"
+        ;;
+    -X|--delete-chain)
+        # Acknowledge chain deletion
+        echo "Chain deleted successfully"
+        ;;
+    -P|--policy)
+        # Acknowledge policy change
+        echo "Policy set successfully"
+        ;;
+    -I|--insert)
+        # Acknowledge rule insertion
+        echo "Rule inserted successfully"
+        ;;
+    -R|--replace)
+        # Acknowledge rule replacement
+        echo "Rule replaced successfully"
+        ;;
+    --version)
+        echo "iptables v1.8.7 (nf_tables)"
+        ;;
+    *)
+        echo "iptables: Operation completed successfully"
+        ;;
+esac
+
+exit 0

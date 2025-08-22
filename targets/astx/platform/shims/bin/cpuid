@@ -1,0 +1,110 @@
+#!/usr/bin/env bash
+echo "[shim] cpuid (fake x86 features)" >&2
+cat <<EOF
+CPU 0:
+   vendor_id = "GenuineIntel"
+   version information (1/eax):
+      processor type  = primary processor (0)
+      family          = 6
+      model           = 142 (0x8e)
+      stepping id     = 10 (0xa)
+      extended family = 0 (0x0)
+      extended model  = 8 (0x8)
+      (family synth)  = 6 (0x6)
+      (model synth)   = 142 (0x8e)
+      (stepping synth) = 10 (0xa)
+   misc feature information (1/ebx):
+      process local APIC physical ID = 0x0 (0)
+      cpu count                      = 0x4 (4)
+      CLFLUSH line size              = 0x8 (8)
+      brand index                    = 0x0 (0)
+   brand id = 0x00 (0): unknown
+   feature information (1/edx):
+      x87 FPU on chip                        = true
+      virtual-8086 mode enhancement          = true
+      debugging extensions                   = true
+      page size extensions                   = true
+      time stamp counter                     = true
+      RDMSR and WRMSR support               = true
+      physical address extensions           = true
+      machine check exception               = true
+      CMPXCHG8B inst.                       = true
+      APIC on chip                          = true
+      SYSENTER and SYSEXIT                  = true
+      memory type range registers          = true
+      PTE global bit                       = true
+      machine check architecture           = true
+      conditional move/compare instruction = true
+      page attribute table                 = true
+      36-bit page size extension          = true
+      processor serial number             = false
+      CLFLUSH instruction                  = true
+      debug store                          = true
+      thermal monitor and clock ctrl       = true
+      MMX Technology                       = true
+      FXSAVE/FXRSTOR                      = true
+      SSE extensions                       = true
+      SSE2 extensions                      = true
+      self snoop                          = true
+      hyper-threading / multi-core supported = true
+      therm. monitor                       = true
+      IA64                                = false
+      pending break event                  = true
+   feature information (1/ecx):
+      PNI/SSE3: Prescott New Instructions  = true
+      PCLMULQDQ instruction                = true
+      64-bit debug store                   = true
+      MONITOR/MWAIT                        = true
+      CPL-qualified debug store            = true
+      VMX: virtual machine extensions      = true
+      SMX: safer mode extensions           = false
+      Enhanced Intel SpeedStep Technology  = true
+      thermal monitor 2                    = true
+      SSSE3 extensions                     = true
+      context ID: adaptive or shared L1 data = false
+      silicon debug                        = true
+      FMA instruction                      = true
+      CMPXCHG16B instruction              = true
+      xTPR disable                        = true
+      perfmon and debug                   = true
+      process context identifiers        = false
+      direct cache access                 = true
+      SSE4.1 extensions                   = true
+      SSE4.2 extensions                   = true
+      extended xAPIC support              = true
+      MOVBE instruction                   = true
+      POPCNT instruction                  = true
+      time stamp counter deadline         = true
+      AES instruction                     = true
+      XSAVE/XRSTOR states                 = true
+      OS-enabled XSAVE/XRSTOR             = true
+      AVX: advanced vector extensions     = true
+      F16C half-precision convert instruction = true
+      RDRAND instruction                  = true
+      hypervisor guest status             = false
+   cache and TLB information (2):
+      0x63: data TLB: 2M/4M pages, 4-way, 32 entries
+            data TLB: 1G pages, 4-way, 4 entries
+      0x03: data TLB: 4K pages, 4-way, 64 entries
+      0x76: instruction TLB: 2M/4M pages, fully, 8 entries
+      0xff: cache data is in CPUID leaf 4
+      0xb5: instruction TLB: 4K, 8-way, 64 entries
+      0xf0: 64 byte prefetching
+      0xc3: shared 2nd-level TLB: 4K/2M pages, 6-way, 1536 entries
+   deterministic cache parameters (4):
+      --- cache 0 ---
+      cache type                           = data cache (1)
+      cache level                          = 0x1 (1)
+      self-initializing cache level        = true
+      fully associative cache             = false
+      extra threads sharing this cache     = 0x1 (1)
+      extra processor cores on this die    = 0x3 (3)
+      system coherency line size           = 0x3f (63)
+      physical line partitions            = 0x0 (0)
+      ways of associativity               = 0x7 (7)
+      number of sets                      = 0x3f (63)
+      WBINVD/INVD acts on lower caches    = false
+      inclusive to lower caches           = false
+      complex cache indexing              = false
+EOF
+exit 0

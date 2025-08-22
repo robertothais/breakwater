@@ -1,0 +1,22 @@
+#!/usr/bin/env bash
+
+# Handle specific dmidecode queries
+if [[ "$*" == *"-s system-uuid"* ]]; then
+    echo "12345678-1234-5678-9abc-1234567890ab"
+    exit 0
+fi
+
+# Default system information
+cat <<'EOF'
+# dmidecode 3.2
+Handle 0x0001, DMI type 1, 27 bytes
+System Information
+        Manufacturer: Lenovo
+        Product Name: ThinkPad
+        Version: 1.0
+        Serial Number: ABC1234
+        UUID: 12345678-1234-5678-9abc-1234567890ab
+        Wake-up Type: Power Switch
+        SKU Number: Not Specified
+        Family: Not Specified
+EOF

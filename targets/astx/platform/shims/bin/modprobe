@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+# no-op modprobe that "succeeds"
+echo "[shim] modprobe $*" >&2
+exit 0

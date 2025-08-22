@@ -1,0 +1,19 @@
+# Generated/downloaded content - should not be committed
+
+# Analysis files
+analysis/
+
+# Package downloads
+packages/
+
+# Extracted package contents
+unpacked/
+
+# Analysis results
+analysis/
+
+# Build artifacts
+dist/
+
+# Specimens
+specimen/

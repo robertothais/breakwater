@@ -1,0 +1,135 @@
+.container {
+  width: 320px;
+  padding: 16px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background: #fff;
+}
+
+h2 {
+  margin: 0 0 16px 0;
+  color: #1a1a1a;
+  font-size: 18px;
+  font-weight: 600;
+  text-align: center;
+}
+
+h3 {
+  margin: 16px 0 8px 0;
+  color: #333;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.status-section {
+  margin-bottom: 20px;
+  padding: 12px;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
+
+.status-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 8px 0;
+}
+
+.label {
+  font-weight: 500;
+  color: #555;
+  font-size: 13px;
+}
+
+.mode {
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  font-weight: 500;
+}
+
+.mode.local {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+
+.mode.embedded {
+  background: #f3e5f5;
+  color: #7b1fa2;
+}
+
+.handler {
+  font-size: 12px;
+  color: #666;
+  font-weight: 500;
+}
+
+.mode-section {
+  margin-bottom: 20px;
+}
+
+.mode-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.mode-button {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding: 12px;
+  border: 2px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-align: left;
+}
+
+.mode-button:hover:not(:disabled) {
+  border-color: #2196f3;
+  background: #f5f5f5;
+}
+
+.mode-button.active {
+  border-color: #2196f3;
+  background: #e3f2fd;
+}
+
+.mode-button:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.mode-button small {
+  margin-top: 4px;
+  color: #666;
+  font-size: 11px;
+}
+
+.switching-notice {
+  text-align: center;
+  padding: 8px;
+  background: #fff3e0;
+  border: 1px solid #ffcc02;
+  border-radius: 4px;
+  margin: 12px 0;
+}
+
+.switching-notice p {
+  margin: 0;
+  color: #f57c00;
+  font-size: 13px;
+}
+
+.info-section {
+  text-align: center;
+  padding-top: 12px;
+  border-top: 1px solid #e0e0e0;
+}
+
+.info-section small {
+  color: #666;
+  font-size: 11px;
+  line-height: 1.4;
+}

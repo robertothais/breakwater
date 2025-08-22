@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ASTx WebVM Proxy</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #f5f5f5;
+      }
+      .status {
+        background: white;
+        padding: 20px;
+        border-radius: 8px;
+        margin-bottom: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      .log {
+        background: #1a1a1a;
+        color: #00ff00;
+        padding: 15px;
+        border-radius: 4px;
+        font-family: monospace;
+        font-size: 14px;
+        max-height: 400px;
+        overflow-y: auto;
+        white-space: pre-wrap;
+      }
+      .error {
+        color: #ff4444;
+      }
+      .success {
+        color: #44ff44;
+      }
+      .info {
+        color: #4444ff;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="status">
+      <h1>ASTx WebVM Proxy</h1>
+      <p>Status: <span id="status">Initializing...</span></p>
+      <p>
+        This page enables browser extension communication with the ASTx WebVM
+        environment.
+      </p>
+      <p><strong>Instructions:</strong></p>
+      <ol>
+        <li>Keep this tab open while using Korean banking sites</li>
+        <li>Set your browser extension to "embedded" mode</li>
+        <li>
+          Navigate to supported banking sites - requests will be processed here
+          via WebVM
+        </li>
+      </ol>
+
+      <div style="margin-top: 15px">
+        <button
+          onclick="testRequest()"
+          style="
+            background: #003366;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 8px 15px;
+            margin: 5px;
+            cursor: pointer;
+          "
+        >
+          Test Request
+        </button>
+        <button
+          onclick="openTerminal()"
+          style="
+            background: #003366;
+            color: #00ff00;
+            border: 1px solid #00ff00;
+            padding: 8px 15px;
+            margin: 5px;
+            cursor: pointer;
+          "
+        >
+          Open Terminal
+        </button>
+      </div>
+    </div>
+
+    <div class="status">
+      <h3>Console Log</h3>
+      <div id="log" class="log">Starting WebVM initialization...</div>
+    </div>
+
+    <div class="status" id="terminal-container" style="display: none">
+      <h3>WebVM Terminal</h3>
+      <div
+        id="terminal"
+        style="background: #1a1a1a; padding: 10px; border-radius: 4px"
+      ></div>
+    </div>
+
+    <script src="https://cxrtnc.leaningtech.com/1.1.5/cx.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/xterm@5.3.0/lib/xterm.js"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/xterm@5.3.0/css/xterm.css"
+    />
+    <script>
+      const statusElement = document.getElementById("status");
+      const logElement = document.getElementById("log");
+
+      function log(message, type = "info") {
+        const timestamp = new Date().toLocaleTimeString();
+        const className =
+          type === "error" ? "error" : type === "success" ? "success" : "info";
+        const logEntry = `[${timestamp}] ${message}\n`;
+
+        logElement.innerHTML += `<span class="${className}">${logEntry}</span>`;
+        logElement.scrollTop = logElement.scrollHeight;
+        console.log(`WebVM: ${message}`);
+      }
+
+      let cx = null;
+      let isInitialized = false;
+      let terminal = null;
+      let terminalOpen = false;
+
+      // Initialize WebVM
+      async function initializeWebVM() {
+        if (isInitialized) return;
+
+        try {
+          statusElement.textContent = "Loading CheerpX...";
+          log("Loading CheerpX...");
+
+          // Check if CheerpX loaded properly
+          if (typeof CheerpX === "undefined") {
+            throw new Error("CheerpX library not loaded");
+          }
+
+          statusElement.textContent = "Loading filesystem...";
+          log("Creating HttpBytesDevice for ext2 filesystem...");
+
+          const blockDevice = await CheerpX.HttpBytesDevice.create(
+            "./astx-webvm.ext2"
+          );
+          log("HttpBytesDevice created successfully");
+
+          log("Creating IDB overlay for read-write access...");
+          const idbDevice = await CheerpX.IDBDevice.create(
+            "astx-webvm-overlay"
+          );
+          log("IDBDevice created successfully");
+
+          const overlayDevice = await CheerpX.OverlayDevice.create(
+            blockDevice,
+            idbDevice
+          );
+          log("OverlayDevice created successfully");
+
+          statusElement.textContent = "Creating Linux environment...";
+          log("Creating Linux instance...");
+
+          cx = await CheerpX.Linux.create({
+            mounts: [
+              { type: "ext2", path: "/", dev: overlayDevice },
+              { type: "devs", path: "/dev" },
+            ],
+            networkInterface: {
+              loginUrlCb: function (url) {
+                log(`Tailscale login URL: ${url}`);
+                // Auto-open login URL in new tab
+                window.open(url, "_blank");
+              },
+              stateUpdateCb: (state) => {
+                log(`Network state: ${state}`);
+              },
+              netmapUpdateCb: (map) => {
+                log("Network map updated");
+              },
+            },
+          });
+          log("CheerpX.Linux.create completed successfully");
+
+          statusElement.textContent = "Starting ASTx server...";
+          log("Starting ASTx daemon...");
+
+          const result = await cx.run("/usr/local/bin/start-server", []);
+          log(`Server start exit status: ${result.status}`);
+
+          // Wait a moment for services to stabilize
+          await new Promise((resolve) => setTimeout(resolve, 1000));
+
+          isInitialized = true;
+          statusElement.textContent = "Ready";
+          log(
+            "WebVM initialization complete! Ready to process banking requests.",
+            "success"
+          );
+        } catch (error) {
+          console.error("Full initialization error:", error);
+          console.error("Error stack:", error.stack);
+          statusElement.textContent = "Error";
+          log(
+            `Initialization failed: ${error.message || error.toString()}`,
+            "error"
+          );
+          log(`Error details: ${JSON.stringify(error, null, 2)}`, "error");
+          throw error;
+        }
+      }
+
+      // Process banking request via WebVM
+      async function processRequest(endpoint, params) {
+        try {
+          await initializeWebVM();
+
+          log(`Processing request: ${endpoint} with params: ${params}`);
+
+          // Capture output from WebVM
+          let capturedOutput = "";
+          const decoder = new TextDecoder("utf-8");
+
+          cx.setCustomConsole(
+            (buf) => {
+              capturedOutput += decoder.decode(buf);
+            },
+            80,
+            24
+          );
+
+          const result = await cx.run("/usr/local/bin/make-request", [
+            endpoint,
+            params,
+          ]);
+
+          log(`WebVM execution completed with status: ${result.status}`);
+          log(`DEBUG: Captured output length: ${capturedOutput.length}`);
+          log(`DEBUG: Captured output: ${capturedOutput.substring(0, 500)}`);
+
+          if (result.status === 0) {
+            // Extract the actual response from captured output
+            const lines = capturedOutput.split("\n");
+            const responseLine = lines.find(
+              (line) =>
+                line.includes("testCallback") ||
+                line.includes("(") ||
+                line.includes("OK")
+            );
+
+            const response = {
+              success: true,
+              data: responseLine || "OK",
+              timestamp: Date.now(),
+            };
+
+            log(`DEBUG: Found response line: ${responseLine}`);
+            log(`Request successful: ${responseLine || "OK"}`, "success");
+            return response;
+          } else {
+            const response = {
+              success: false,
+              error: "WebVM request failed",
+              data: null,
+            };
+
+            log("Request failed", "error");
+            return response;
+          }
+        } catch (error) {
+          log(`Request error: ${error.message}`, "error");
+          return {
+            success: false,
+            error: error instanceof Error ? error.message : "Unknown error",
+            data: null,
+          };
+        }
+      }
+
+      // Listen for messages from browser extension
+      window.addEventListener("message", async (event) => {
+        // Only accept messages from the extension origin
+        if (event.source !== window) return;
+
+        if (event.data.type === "WEBVM_REQUEST_FROM_EXTENSION") {
+          log(`Received extension request: ${event.data.payload.endpoint}`);
+
+          const { endpoint, params } = event.data.payload;
+          const response = await processRequest(endpoint, params);
+
+          // Debug the response before sending
+          log(`DEBUG: Response object: ${JSON.stringify(response, null, 2)}`);
+          log(`DEBUG: Response success: ${response.success}`);
+          log(`DEBUG: Response data: ${response.data}`);
+          log(`DEBUG: Response error: ${response.error}`);
+
+          // Send response back to extension via postMessage
+          window.postMessage(
+            {
+              type: "WEBVM_RESPONSE_TO_EXTENSION",
+              requestId: event.data.requestId,
+              response: response,
+            },
+            "*"
+          );
+          log(`Sent response back to extension`);
+        }
+      });
+
+      // Helper function to run command and capture output
+      async function runWithOutput(cmd, args = []) {
+        let capturedOutput = "";
+        const decoder = new TextDecoder("utf-8");
+
+        cx.setCustomConsole(
+          (buf) => {
+            capturedOutput += decoder.decode(buf);
+          },
+          80,
+          24
+        );
+
+        const result = await cx.run(cmd, args);
+
+        return {
+          status: result.status,
+          output: capturedOutput.trim(),
+        };
+      }
+
+      // Simple test request function
+      async function testRequest() {
+        if (!cx) {
+          log("WebVM not initialized yet!", "error");
+          return;
+        }
+
+        log("=== Testing Request ===");
+
+        try {
+          // Send a test request to the daemon
+          log("Sending test request...");
+          let result = await runWithOutput("/usr/local/bin/make-request", [
+            "/ASTX2/hello",
+            "callback=testCallback&v=3",
+          ]);
+          log(
+            `make-request: status=${result.status}, output="${result.output}"`
+          );
+
+          // Check the daemon log
+          log("Checking daemon log...");
+          let logResult = await runWithOutput("/bin/cat", [
+            "/var/log/astx/daemon.log",
+          ]);
+          if (logResult.status === 0) {
+            log(`Daemon log contents:\n${logResult.output}`);
+          } else {
+            log(`Failed to read daemon log: status=${logResult.status}`);
+          }
+
+          // Check the handler log
+          log("Checking handler log...");
+          logResult = await runWithOutput("/bin/cat", [
+            "/var/log/astx/handler.log",
+          ]);
+          if (logResult.status === 0) {
+            log(`Handler log contents:\n${logResult.output}`);
+          } else {
+            log(`Failed to read handler log: status=${logResult.status}`);
+          }
+
+          // Test connection to daemon port
+          log("Testing connection to daemon port 55920...");
+          logResult = await runWithOutput("/bin/nc", [
+            "-z",
+            "-v",
+            "127.0.0.1",
+            "55920",
+          ]);
+          log(
+            `Port 55920 test: status=${logResult.status}, output="${logResult.output}"`
+          );
+
+          // Test connection to proxy port
+          log("Testing connection to proxy port 8080...");
+          logResult = await runWithOutput("/bin/nc", [
+            "-z",
+            "-v",
+            "127.0.0.1",
+            "8080",
+          ]);
+          log(
+            `Port 8080 test: status=${logResult.status}, output="${logResult.output}"`
+          );
+        } catch (error) {
+          log(`Test error: ${error.message}`, "error");
+        }
+      }
+
+      // Open terminal function
+      async function openTerminal() {
+        if (!cx) {
+          log("WebVM not initialized yet!", "error");
+          return;
+        }
+
+        if (terminalOpen) {
+          log("Terminal already open!");
+          return;
+        }
+
+        try {
+          log("Opening WebVM terminal...");
+
+          // Show terminal container
+          document.getElementById("terminal-container").style.display = "block";
+
+          // Initialize xterm.js
+          terminal = new Terminal({
+            convertEol: true,
+            cursorBlink: true,
+            theme: {
+              background: "#1a1a1a",
+              foreground: "#00ff00",
+            },
+          });
+
+          terminal.open(document.getElementById("terminal"));
+
+          // Set up WebVM console redirection
+          const send = cx.setCustomConsole(
+            (buf) => {
+              terminal.write(new Uint8Array(buf));
+            },
+            terminal.cols,
+            terminal.rows
+          );
+
+          // Handle terminal input
+          terminal.onData((str) => {
+            for (let i = 0; i < str.length; i++) {
+              send(str.charCodeAt(i));
+            }
+          });
+
+          // Start bash shell
+          cx.run("/bin/bash", ["-i"]);
+
+          terminalOpen = true;
+          log("Terminal opened successfully!");
+        } catch (error) {
+          log(`Failed to open terminal: ${error.message}`, "error");
+        }
+      }
+
+      // Initialize WebVM when page loads
+      log("WebVM Proxy page loaded. Initializing WebVM...");
+      initializeWebVM().catch((error) =>
+        log(`Initialization failed: ${error.message}`, "error")
+      );
+    </script>
+  </body>
+</html>

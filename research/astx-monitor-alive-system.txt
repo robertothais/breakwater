@@ -1,0 +1,344 @@
+# ASTx Monitor Alive System Analysis
+
+## Overview
+The `monitorAlive` function is ASTx's central background monitoring thread that orchestrates all surveillance, authentication, and maintenance operations. This massive function runs continuously in the background, managing multiple timer-based cycles for different security operations.
+
+## Core Architecture
+
+### Thread Initialization
+```c
+pthread_t monitor_thread;
+pthread_create(&monitor_thread, NULL, monitorAlive, NULL);
+pthread_detach(monitor_thread);  // Run independently
+```
+
+**Purpose**: Creates detached background thread for continuous system monitoring without blocking main daemon operations.
+
+## Timer-Based Operation Cycles
+
+### 1. Authentication Cycle (12-Hour Timer)
+```c
+// 43200 seconds = 12 hours
+if (current_time - last_auth_time >= 43200) {
+    int auth_result = performAuthenticationCheck();
+    if (auth_result == 0) {
+        syslog(LOG_INFO, "Authentication successful");
+        last_auth_time = current_time;
+    } else {
+        syslog(LOG_ERR, "Authentication failed, code: %d", auth_result);
+    }
+}
+```
+
+**Function**: Maintains connection with AhnLab authentication servers
+**Endpoint**: Uses `/ASTX2/hello` API endpoint
+**Failure Handling**: Logs errors but continues operation in degraded mode
+
+### 2. Surveillance Data Upload (3-Hour Timer) 
+```c
+// 10800 seconds = 3 hours  
+if (current_time - last_upload_time >= 10800) {
+    if (insight_data_available) {
+        int upload_result = uploadInsightData();
+        if (upload_result == 0) {
+            clearInsightDataBuffer();
+            last_upload_time = current_time;
+        }
+    }
+}
+```
+
+**Function**: Uploads collected surveillance data to AhnLab servers
+**Endpoint**: Uses `/ASTX2/get_pclog` API endpoint
+**Data Type**: "Insight data" - PC activity logs and surveillance telemetry
+**Encryption**: Uses RSA keys from AppConfig for data encryption
+
+### 3. Software Update Check (3-Hour Timer)
+```c
+if (current_time - last_update_check >= 10800) {
+    char *version_url = getVersionURL();  // From AppConfig
+    int update_result = checkForUpdates(version_url);
+    
+    if (update_result > 0) {
+        syslog(LOG_INFO, "Update available, initiating download");
+        downloadAndInstallUpdate();
+    }
+    last_update_check = current_time;
+}
+```
+
+**Function**: Checks for ASTx software updates
+**URL Source**: VersionURL from decrypted AppConfig
+**Process**: Downloads, verifies, and installs updates automatically
+
+## Browser Process Monitoring
+
+### Process Health Monitoring
+```c
+// Check browser processes every monitoring cycle
+for (int i = 0; i < MAX_BROWSER_PROCESSES; i++) {
+    if (browser_pids[i] != 0) {
+        int status = kill(browser_pids[i], 0);  // Check if process exists
+        if (status == -1 && errno == ESRCH) {
+            syslog(LOG_INFO, "Browser process %d terminated", browser_pids[i]);
+            cleanupBrowserSession(browser_pids[i]);
+            browser_pids[i] = 0;
+        }
+    }
+}
+```
+
+**Purpose**: Tracks browser process lifecycle and cleans up terminated sessions
+**Detection**: Uses `kill(pid, 0)` to check process existence without sending signals
+
+### Browser State Mutex Management
+```c
+pthread_mutex_lock(&g_browserStateMutex);  // DAT_0862e6fc
+
+// Update browser session state
+updateBrowserSessionData(browser_pid, session_data);
+
+// Check for browser fingerprint changes
+if (detectBrowserFingerprint(browser_pid)) {
+    recordBrowserMetrics(browser_pid);
+}
+
+pthread_mutex_unlock(&g_browserStateMutex);
+```
+
+**Critical Section**: Protects browser session data from race conditions
+**Global Mutex**: `DAT_0862e6fc` (`g_browserStateMutex`) synchronizes access across all threads
+
+## UI Lifecycle Management
+
+### UI Process Spawning
+```c
+if (ui_spawn_requested && ui_process_pid == 0) {
+    char ui_command[256];
+    snprintf(ui_command, sizeof(ui_command), 
+             "pkexec /opt/AhnLab/ASTx/astxui");
+             
+    ui_process_pid = fork();
+    if (ui_process_pid == 0) {
+        execl("/bin/sh", "sh", "-c", ui_command, NULL);
+    }
+}
+```
+
+**Privilege Escalation**: Uses `pkexec` to launch UI with elevated privileges
+**Process Management**: Tracks UI process PID for lifecycle management
+
+### UI Health Monitoring
+```c
+if (ui_process_pid != 0) {
+    int ui_status;
+    int result = waitpid(ui_process_pid, &ui_status, WNOHANG);
+    
+    if (result > 0) {  // UI process terminated
+        syslog(LOG_INFO, "UI process terminated with status %d", ui_status);
+        ui_process_pid = 0;
+        
+        if (WIFEXITED(ui_status) && WEXITSTATUS(ui_status) != 0) {
+            syslog(LOG_ERR, "UI process exited with error code %d", 
+                   WEXITSTATUS(ui_status));
+        }
+    }
+}
+```
+
+**Non-blocking Check**: Uses `WNOHANG` to avoid blocking monitor thread
+**Exit Code Analysis**: Logs detailed termination information for debugging
+
+## Ambassador Component Integration
+
+### Serial Number Management
+```c
+// Ambassador serial number handling in monitor loop
+if (ambassador_serial_check_needed) {
+    char serial_buffer[64];
+    int serial_result = getAmbassadorSerial(serial_buffer, sizeof(serial_buffer));
+    
+    if (serial_result == 0) {
+        syslog(LOG_INFO, "Ambassador serial: %s", serial_buffer);
+        updateSerialInInsightData(serial_buffer);
+    } else {
+        syslog(LOG_ERR, "Failed to get Ambassador serial, code: %d", serial_result);
+    }
+}
+```
+
+**Purpose**: Retrieves and tracks unique system identifier from Ambassador component
+**Integration**: Serial number included in surveillance data uploads via `/ASTX2/get_pclog`
+**Timing**: Checked periodically during monitor cycles
+
+### Ambassador Process Monitoring
+```c
+// Monitor Ambassador daemon status
+int ambassador_pid = findProcessByName("ambassador");
+if (ambassador_pid == 0) {
+    syslog(LOG_WARN, "Ambassador process not found, attempting restart");
+    int restart_result = restartAmbassadorService();
+    if (restart_result != 0) {
+        syslog(LOG_ERR, "Failed to restart Ambassador service");
+    }
+}
+```
+
+**Service Management**: Ensures Ambassador daemon remains running for serial number access
+**Recovery**: Automatically restarts Ambassador if process terminates
+**Dependencies**: Serial number functionality requires active Ambassador process
+
+## Network Connectivity Monitoring
+
+### Connection Health Check
+```c
+int connectivity_check = testNetworkConnectivity();
+if (connectivity_check == 0) {
+    network_available = 1;
+    consecutive_network_failures = 0;
+} else {
+    consecutive_network_failures++;
+    if (consecutive_network_failures >= 5) {
+        network_available = 0;
+        syslog(LOG_WARN, "Network connectivity lost after %d attempts", 
+               consecutive_network_failures);
+    }
+}
+```
+
+**Resilience**: Requires multiple failures before marking network as unavailable
+**Impact**: Affects authentication and surveillance data upload operations
+
+## Error Handling and Recovery
+
+### Operation State Tracking
+```c
+typedef struct {
+    time_t last_auth_attempt;
+    time_t last_upload_attempt;
+    time_t last_update_check;
+    int auth_failure_count;
+    int upload_failure_count;
+    int network_failure_count;
+} monitor_state_t;
+
+monitor_state_t monitor_state = {0};
+```
+
+**Persistent State**: Tracks failure counts and timing for each operation type
+**Recovery Logic**: Implements exponential backoff for failed operations
+
+### Graceful Degradation
+```c
+// Authentication failures
+if (monitor_state.auth_failure_count >= 3) {
+    // Extend retry interval to 24 hours
+    auth_retry_interval = 86400;
+    syslog(LOG_WARN, "Extended auth retry interval due to failures");
+}
+
+// Upload failures  
+if (monitor_state.upload_failure_count >= 5) {
+    // Switch to local storage mode
+    enable_local_insight_storage = 1;
+    syslog(LOG_INFO, "Switching to local insight storage");
+}
+```
+
+**Adaptive Behavior**: Adjusts operation parameters based on failure patterns
+**Data Preservation**: Ensures surveillance data is not lost during network issues
+
+## Main Monitor Loop
+
+### Continuous Operation
+```c
+void* monitorAlive(void* arg) {
+    time_t loop_start_time = time(NULL);
+    
+    while (daemon_running) {
+        time_t current_time = time(NULL);
+        
+        // Authentication cycle (12 hours)
+        checkAndPerformAuthentication(current_time);
+        
+        // Surveillance upload cycle (3 hours)
+        checkAndUploadInsightData(current_time);
+        
+        // Update check cycle (3 hours)
+        checkForSoftwareUpdates(current_time);
+        
+        // Browser monitoring (continuous)
+        monitorBrowserProcesses();
+        
+        // UI lifecycle management
+        manageUIProcesses();
+        
+        // Network connectivity check
+        checkNetworkConnectivity();
+        
+        // Ambassador serial tracking
+        checkAmbassadorSerial();
+        
+        // Sleep for monitoring interval (30 seconds)
+        sleep(30);
+    }
+    
+    return NULL;
+}
+```
+
+**Sleep Interval**: 30-second cycles balance responsiveness with resource usage
+**Continuous Operation**: Runs until daemon shutdown signal received
+
+## Global State Variables
+
+### Monitor Thread State
+- **`monitor_state`**: Operation failure counts and timing
+- **`daemon_running`**: Global flag controlling monitor loop
+- **`network_available`**: Network connectivity status
+- **`insight_data_available`**: Flag indicating surveillance data ready for upload
+
+### Browser Session Management  
+- **`browser_pids[]`**: Array tracking active browser process IDs
+- **`g_browserStateMutex`** (`DAT_0862e6fc`): Mutex protecting browser session data
+- **`browser_session_data`**: Current browser fingerprints and metrics
+
+### Timer State
+- **`last_auth_time`**: Timestamp of last authentication attempt
+- **`last_upload_time`**: Timestamp of last surveillance data upload
+- **`last_update_check`**: Timestamp of last software update check
+
+### Ambassador Integration
+- **`ambassador_serial`**: Current system serial number from Ambassador
+- **`ambassador_pid`**: Process ID of Ambassador daemon
+- **`ambassador_serial_check_needed`**: Flag indicating serial refresh required
+
+## Security Implications
+
+### Surveillance Coordination
+1. **Continuous Data Collection**: 24/7 monitoring of browser activities
+2. **Automatic Data Exfiltration**: Regular uploads to AhnLab servers with unique serial identification
+3. **Stealth Operation**: Runs as background thread with minimal visibility
+
+### System Integration
+1. **Privilege Management**: Coordinates UI elevation via pkexec
+2. **Process Monitoring**: Tracks browser lifecycle for injection timing
+3. **Network Resilience**: Maintains operation during connectivity issues
+4. **Ambassador Dependency**: Relies on Ambassador service for unique system identification
+
+### Data Security
+1. **Encrypted Uploads**: Uses RSA keys for surveillance data encryption
+2. **Local Storage Fallback**: Preserves data during network outages
+3. **Mutex Protection**: Prevents data corruption from concurrent access
+4. **Serial Tracking**: Ensures surveillance data tied to specific system identity
+
+## Recovery Mechanisms
+
+### Failure Scenarios
+1. **Network Outage**: Switches to local storage, extends retry intervals
+2. **Server Unavailable**: Implements exponential backoff for reconnection
+3. **Browser Crashes**: Cleans up sessions and prepares for new injections
+4. **UI Termination**: Automatically respawns UI processes when needed
+5. **Ambassador Failure**: Restarts Ambassador service to maintain serial number access
+
+The monitor system demonstrates ASTx's sophisticated approach to maintaining continuous surveillance while handling real-world system failures and network conditions gracefully.

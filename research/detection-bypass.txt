@@ -1,0 +1,139 @@
+
+⸻
+
+🛠 Detection & Bypass Strategies for Linux Security Apps
+
+1. Filesystem & /proc Checks
+
+What they check:
+	•	/proc/cpuinfo → CPU vendor/model (detects “QEMU”, “VMware”, “Virtual CPU”)
+	•	/proc/meminfo → available RAM
+	•	/proc/modules or /sys/module/… → kernel modules loaded (security driver)
+	•	/proc/version → kernel version string
+	•	/sys/class/net/*/address → MAC address vendor (VMware, VirtualBox OUIs)
+	•	/sys/block/* → disk model (detects “VBOX”, “QEMU HARDDISK”)
+
+How to fake:
+	•	Precreate static files in rootfs with plausible host-like content.
+	•	Bind-mount real host /proc files (in real Linux VM) or use static text in CheerpX rootfs.
+	•	Change MAC addresses in static files to real vendor OUIs (Intel, Realtek).
+	•	Remove obvious “QEMU”, “VBOX” identifiers.
+
+⸻
+
+2. Kernel Module Presence
+
+What they check:
+	•	stat("/sys/module/astx") or init_module() success.
+	•	ioctl() to /dev/astx* device.
+
+How to fake:
+	•	Create fake /sys/module/astx directory + placeholder files.
+	•	Intercept open("/dev/astx…") in LD_PRELOAD → return /dev/null fd.
+	•	Hook ioctl in shim to return success and dummy structs.
+
+⸻
+
+3. Hardware Device Queries
+
+What they check:
+	•	ethtool → network link state
+	•	hdparm → HDD model/serial
+	•	cpuid → CPU feature bits
+
+How to fake:
+	•	Replace ethtool, hdparm, cpuid with tiny stand-in binaries that echo plausible values and exit 0.
+	•	Or intercept in LD_PRELOAD → detect via argv and spoof stdout.
+
+⸻
+
+4. Networking & Netfilter
+
+What they check:
+	•	libnetfilter-conntrack / libnfnetlink → open netlink socket, query conntrack table.
+	•	iptables -L output.
+	•	Ability to bind to low-number ports.
+
+How to fake:
+	•	Stub out netlink calls in shim to return empty-but-valid results.
+	•	Provide dummy /sbin/iptables that outputs a standard ruleset.
+	•	Always return EPERM for privileged binds, unless app treats as failure (then patch to skip).
+
+⸻
+
+5. Environment & D-Bus
+
+What they check:
+	•	dconf-cli / dconf-tools → GNOME/desktop settings.
+	•	D-Bus service presence.
+
+How to fake:
+	•	Install minimal dconf binary (no-op) in rootfs.
+	•	Provide /usr/bin/dbus-send wrapper that fakes expected responses.
+
+⸻
+
+6. System Calls & Privileges
+
+What they check:
+	•	uname() → kernel release string
+	•	prctl(PR_CAPBSET_READ, CAP_SYS_ADMIN) → check capabilities
+	•	geteuid() vs getuid() for root detection
+	•	seccomp or ptrace anti-debug
+
+How to fake:
+	•	LD_PRELOAD hook for uname → return plausible release string.
+	•	Intercept prctl to return “cap present” when needed.
+	•	Patch binary to skip seccomp/ptrace exit paths.
+
+⸻
+
+7. File Hash / Binary Integrity
+
+What they check:
+	•	SHA1/MD5 of installed helper binaries.
+	•	Presence of specific files in install dirs.
+
+How to fake:
+	•	Keep exact filenames + dummy content with matching size/timestamps.
+	•	If hashes are checked, copy from real install.
+
+⸻
+
+8. VM Detection
+
+Common signals:
+	•	Strings in /proc/cpuinfo (vendor_id, model name)
+	•	PCI vendor IDs in /sys/bus/pci/devices/*/vendor (e.g., 0x80ee VirtualBox)
+	•	DMI data in /sys/class/dmi/id/* (manufacturer, product name)
+
+How to fake:
+	•	Replace text files in /sys/class/dmi/id/ with realistic values (Lenovo, Dell, etc.).
+	•	Edit /proc/cpuinfo vendor_id and model name in rootfs copy.
+	•	Patch binary if it does string compares internally.
+
+⸻
+
+📦 Implementation Layers
+	1.	Rootfs Editing
+	•	Static text replacements for /proc, /sys, /dev paths inside emulator’s root filesystem.
+	2.	Binary Shims
+	•	Drop-in replacements for called tools (ethtool, hdparm, cpuid, iptables) that just print expected output.
+	3.	LD_PRELOAD Interception
+	•	Hook libc functions: open, ioctl, uname, socket, prctl, read (for /proc/*) to return faked values.
+	4.	Binary Patching
+	•	Remove or invert return-value checks for VM/kernel detection logic.
+	5.	Dynamic Response Shaping
+	•	If app parses JSON/XML/Netlink, intercept and feed benign but valid structures.
+
+⸻
+
+🔑 Key Principle
+
+For browser/emulator contexts (CheerpX):
+
+Make every expected dependency appear to succeed — whether it’s a file, a device, a command, or a syscall — and return “healthy” values that match a plausible physical Linux machine.
+
+⸻
+
+If you want, I can now map this cheat sheet directly to ASTx’s .deb contents so you’ll have a per-binary fake plan. That would give you a blueprint from unpack → rootfs prep → CheerpX launch.

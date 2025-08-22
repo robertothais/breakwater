@@ -1,0 +1,110 @@
+# ASTx Configuration File Encryption Analysis
+
+## Summary
+Successfully reverse engineered and implemented complete decryption for AhnLab Safe Transaction (ASTx) configuration files:
+- **AppConfig files**: AES-128 CBC with XOR-generated key + zero IV ✅ FULLY WORKING
+- **RSA key obfuscation**: Custom base64 + character filtering + XOR ✅ FULLY WORKING
+
+## Working Decryption Implementation
+
+### AppConfig Files (appconfig.xml, starter_ply_linux.html)
+**Algorithm**: AES-128 CBC mode
+**Key Generation**:
+1. Base string: `"KEY2ENCRYPT&DECRYPT"`
+2. XOR with parsed numbers from hex data: `45:44:43:87:50:47:47:62:50:53:45:85:33:32:39:99`
+3. Result: `"firewallkeyseed1"` (16 bytes)
+
+**Key Details**:
+- **IV**: Zero IV (`00000000000000000000000000000000`)
+- **Processing**: Base64 decode → AES decrypt → PKCS#7 unpad
+- **Tool**: `targets/astx/tools/decrypt_configs.py`
+
+**Decrypted Content Structure**:
+```ini
+[SECTION_PLYURL]
+StarterPolicyURL=http://webclinic.ahnlab.com/astx/policy/starter_ply_linux.html
+
+[SECTION_VERURL]
+VersionURL=http://safetx.ahnlab.com/master/linux/astx_ver_linux.html
+
+[SECTION_S2C_RSA_KEY]
+PublicKey=[755 character obfuscated key]
+PrivateKey=[2800 character obfuscated key]
+```
+
+### RSA Key Decoding
+**Algorithm**: Multi-layer custom encoding
+1. **Character filtering**: Skip every 5th character (positions 0, 5, 10, 15...)
+2. **XOR**: Apply XOR with 4 to remaining characters
+3. **Custom Base64**: Decode using seed-derived 64-character alphabet
+
+**Parameters**:
+- **Seed**: 64-byte string at `0x08422b20`: `-f3_v8spVG29kzl5XuDNLci6rdoQy0ZFqmSACMgYbjRe7nPTOEKtawUhJ4HWIxB1`
+- **Salt/param2**: 4 (hardcoded for RSA keys)
+- **Alphabet generation**: Step=5, nested loop algorithm
+- **Padding character**: '*' in filtered data (from '.' after XOR)
+
+**Result**: Standard PEM format RSA keys
+- Public key: `-----BEGIN PUBLIC KEY-----` format
+- Private key: `-----BEGIN RSA PRIVATE KEY-----` format
+- Keys verified as matching pair via modulus comparison
+
+## Files and Encryption Types
+
+### Confirmed Working Decryption
+1. **AppConfig files** (AES CBC + zero IV):
+   - `/opt/AhnLab/ASTx/ConfigFile/appconfig.xml` - Base64-encoded (5056 bytes)
+   - `/opt/AhnLab/ASTx/ConfigFile/starter_ply_linux.html` - Base64-encoded (512 bytes)
+   - Downloaded remote files from URLs in AppConfig
+
+2. **RSA Keys** (custom obfuscation):
+   - Public and private keys embedded in decrypted AppConfig
+   - Used for PC surveillance data encryption pipeline
+
+### Unknown Encryption (Further Analysis Required)
+1. **Regular config files**:
+   - `/opt/AhnLab/ASTx/ConfigFile/config.xml` - Binary encrypted (208 bytes)
+   - `/opt/AhnLab/ASTx/SUarez/conf/suarez.conf.client` - Binary encrypted (704 bytes)
+
+2. **Debug/Log files** (stream cipher):
+   - `CfgDebug.log`, `AmbassDebug.log`, `Debug.log`
+   - Non-block-aligned sizes indicate stream cipher
+   - Different encryption from config files
+
+## SEED Cipher Discovery (Purpose Unknown)
+
+Found SEED cipher implementation in `astxdaemon` binary:
+- **Key**: `"AhnlabSecretKey\x00"` (16 bytes)
+- **IV**: `{1, 2, 3, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}`
+- **Location**: Function `fcn.0810797e` (MySeedEnDecrypt)
+
+**Important**: This SEED cipher is NOT used for the AppConfig files we successfully decrypt. Its actual purpose remains unknown - possibly for:
+- Regular config files (config.xml, suarez.conf.client)
+- Other security functions within ASTx
+- Runtime data encryption
+
+## Implementation Status
+
+✅ **Complete and Working**:
+- AppConfig AES decryption
+- RSA key de-obfuscation
+- Modulus verification for key pairs
+- Remote file download and decryption
+
+**Tool**: `targets/astx/tools/decrypt_configs.py`
+- Decrypts all AppConfig files
+- Downloads and decrypts remote policy/version files
+- Decodes obfuscated RSA keys
+- Verifies RSA key pair integrity
+
+## Security Implications
+
+1. **Static keys**: All ASTx installations use same encryption keys
+2. **RSA key obfuscation**: Multi-layer encoding prevents simple grep/search
+3. **Multiple crypto systems**: Different encryption for different file types
+4. **Surveillance keys**: Decoded RSA keys enable telemetry decryption
+
+## References
+- Binary analyzed: `/opt/AhnLab/ASTx/astxdaemon`
+- RSA seed location: Binary offset `0x08422b20`
+- Key functions: `FUN_08059915` (AES key gen), `FUN_080ba016` (RSA decode)

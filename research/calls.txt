@@ -1,0 +1,131 @@
+https://lx.astxsvc.com:55920/ASTX2/get_pclog?v=3&ver=1&alg=1&svr=shinhanbank&norsa=0&uniq=E89BFFA185B19806C3C608AED9D0329938F0344C998C6696D6020156DD0BB57D&utime=1755090322&nlog=1&ipaddr=211.217.169.174&pageid=1755090254329&opt=&callback=jQuery1113011939648502115907_1755090256857&_=1755090256874
+
+jQuery111308307361201569728_1755090644621({
+    "pclog_data": "SB_Cm8PPzQ2PzsNBNc-hloN0A3ShloNBLiEj9dVRARhOSBvhlsNaAB6aLTPKuRweqdn-mRW0NPmHiQGTNPuGoPG9rnezLBCPdBwiN36X2r05i8lKmx6wrvztzBlnGjvMdxrxDr6ek6e92nGEreeDGBbBdc02LowplcGClepXSd6MkimONv0IijGPkdeuiRWMli6ndRmBiRN_63Wkrrntr3wvdjltzRG8kd7t67COqdNWD3YXldlEzv0Qr6YoD66cmTmgd_YD5PE8ARnvm7mlN7WoSrWvGRN7S3Ga2BeTiiW2rTzMST6sq8ebzQmu6jG5zRmjNv6bXTNbq6mxD6zEoiJWdoCPd7urzr_P2jzpzP6uz3NMq8NgNPW5NxrK6OwP2rbWmjpydRNklxu8AfYd6B_D6iYeAeGHmd6OoBGw2n_cq36QdQuMLP_HmPE0lRYro3hEr6ZBGTuDNQSPdruwz3IxzBupr7uDi3N7rv6fmi-tGf0NGvbWor0PdrG6iyhDGvEMq7nQoRSh9oNnAReE9rWKGehWle2TSRmbkr2Izj_lGn_yrB0e2BnxN6YGD6_Fi3mPSiGT63mGzQ6TN3YpNe_iq6Sn6juXdRGeSe0NirGtSvNjDimN27Gik6YG67NEdjzp2nYOzjpEN_vWd3eKDRejrc-BirWzi3lWojuxm7bni6vBqiGNojuxriel6cpede7WrxefGRmv66hxz7YO6sNnm3ewNdPEzTrnl87KzQ7WuRG0m3vhGR-Wrxuid_mlkv_-dRGelTNXcBnDdi6GSernLnYQzrz3D6vWS7bBirWYmfZnmTeEzimGirWyD3h3LTNuqiZBSRGTi6lnN__RqizN2Q66GjvnLx_xrim3NBGbLRvnDrWySRep6j_b26_76dNjzrYpij66i30W66_0d3e8o7GjSe6kGxpyN3mKGxeQ6jmLGT6FS7Y8q86O6n_n6eNPiRecrPN66TekGn_0qdZnLih7icZnzQ6tzd-EkceQzQ0GzQNgN8NE6xujzcutLn_Di80eD60irrEWk_vBivYcrjeXdvYOD7_bzilWSPEOz7Et66GWAPbn67GOmf0tzv_jqdGNNRGjqc0Dd6_7Ge7nN8NQGRekGxpWrcmyDf6XojmDNPE6G_rWDrGT6B_l6QNbmcVnd60Q67ewz__jDiecm3n6SfNCDiZwDd0koceikr0nk_vPDiuFL6YOzR0ODe_emrnGmRhjkiPBNn_jdRlWiiEYzR0ENPz-NfSnqd6bGQ_366msrPY9mPEOzQ7nddNwmiecm3JBz7W3GnezGfuPNiho6vbnz36-z6ep6inXS8GlSTedGfzG2PGgivYEdr_jGeeiD3hOk66LL7_pmcm36x_OD_mwD__RSiYpl3hKriGEdrLKABurNjeTzemODrYRDimkln0T6nzCk_N0A3myoc6jGQ_vLTN7zRe0oRnbzRukSnmOi37n5c_X6nuDSQeTdvYbSrGOGQutoeNXzcuN26_Y6xztSneEriGymBEi6BeYlQvOz6eelrGTSv2nDvIOSdNki7KOldpGLQezGfpFSceicxe7LxpFqc-Wlj_7kcpWSTNlr6rBGQNiirmLdcuxG30Klf6TrdzGo7NNmizGm7E6cBmO67YbmdG3icuxNrNlSe_jmimE6c6-63GnLe_7i_N9mTNfDx0Ok_NRiReNNd6YzR_CGBuXGjpWofuO2i0OkfpfAxzMoj6bSerBN86fi3ublvW66B0vSRuuzi-EoPLI2rmOmTeNdvbBr7WNz6vBS_JPDdNNlc66dQzkGxpli8GNGBei2onEN8LEzRGNrRG7kcmEoeh8Dd0Lo3eNS3NnmBrTmrYKmReol6_O6d6Xr66rqvNt5r0WDon0ATNpSx_gicGvo7e-rdNN6TNjii0kz7N8Af-W6evIiiNkGn7KGfSnGBhXi_mWS_hfzdGNkfuY2xGn6i00qizpSn_X6vNDLe7wdR03oBGbz66tojGBrd2xmf6KdQzEd6JIAB0e6ceTDvEE6QejG3zGDiEiDPet66elzjukLn_yz7EYNnhfie7W66_fNizWGnvBN3Y32R2PGjlBSPhPATGiLrWfGQeWSTvwAxp3ijrIrrw36d_3N_LBDvIPkrekzvWyN8NeoRGOziGtzfVKN_NEmfe6lrmnDfpYScuPNPWO6B6CDrzXrn6Omxe62cm3DcGgAi03rRGfG7w76rh6SimK27NOii0vLeefrd-Erj_uXyb*",
+    "result": "ACK"
+})
+
+-----------------------
+
+DO get cert (made to bank server)
+{"alg":"1","cert1":"s7nuorznq7z82i_z2PzG2T_3mR0TrPYcm7EH2rWsNBwED3wYGTexlvuprcz32rGp6rnoocm_26ev6e_GoPGpAv-X6d_oz_6wkcN7Gvexo30Qd7nric0zGvvKdrGQqvnrrdGcD3zkdiYNqvnv2cYzG3zId6GGz_mg2cuzr7nxG6_NGVYir6_5Gv_K2erErQG6leNWN3niqrnorcm_Nnev6e_GGvGpmfY0GBEnLrm3m6ewGj60q7z826zumPGGirY5AnYusR0BLPWprr6s2e_pG3mjG6ppGvz826_t2BmjGrupdfN8AveLL6zR2PEsid-PL70nre0pk8ek6vJPz3YcAfzOSPSXzv0ELRGO27_527GfScYp6ohCGep0d80ckrIPqRGpArhIoj_DzshKq7_YGQrIAjeylvEcDPPnq3YDS8uC5Peal2Y2D8NKoceOzvGI2R6Yod0MNvG_SeLPLrvIzPW9LiNWoivx5PeeSxztr7zLr7NdqiNHl3KO63hQN_N0o7CTGe-ts70MGrzlonzsmilTSdzw6QGi6vnjAyw_2imEd7WWdvzl63hHGczbzT0LSQ_RXP_OzPwidv03lswXiR6-AiY7r8lXq_YMrrufSjlPkc6TGr_ad768A3GNGsJK5nLI2eGlAj_kq80Xod0l267IA3zlNxNwAd_socpcoeuvlr_dAQ6NdVYC6TzzD_e62RNXmr0_Dx0Wm7hu2dms2j0_djpo2rbxoTm5kiu_r6exkd-WA6VMN6Yiq8082cm_2r_r2rWsNBwEsR0MDrSWmTps26_TG7_pdPzprr6pLxznm__WG7wNm769dcGj2Rw0A3m-2c7MS_pX6vZxDe_W2ibndiY0oRGwk_ZXN3YzzrG7SsCOLd0L2rrni7GTAQvB6PNvlinOr7vtq7NtNvNHSnzpm_NQN3wazRm3zf0pqjmsdBwX5B666BPTm2Y9iQG_znNN5xLtlj6lSB0GAfGdzohM5x6CrRG0oT6tz606LTNzAjuEljNeDBhODR-n2PNgAP0wlyw0ddpfmeNxsj06S8euleNao6_Qoj7I6PYXDrnDmrwBiivt66Y8lfmti7zvz_mYl3zzmvzfldmHDRwrGi65l_rM2RYs2TGu2R7XSrEnkiukod0NSdpWic0nA8mlDr6yzczIoRzoA3hHoRzIrnmRGjmXS_eCoRZMm7NHrRGL2BCMleGIl7eYL6NMzZYoqihGoBZnrQNtiiu2dx0sirWzGOwuk_pp2QlWqcunGcu9SPLxq8LMGvvh92b*","ipaddr":"211.217.169.174","ncert":"1","nlog":"1","norsa":"0","result":"ACK","svr":"shinhanbank","uniq":"E89BFFA185B19806C3C608AED9D0329938F0344C998C6696D6020156DD0BB57D","utime":"1755090699","ver":"1"}
+
+
+works without auth
+
+ curl 'https://bank.shinhan.com/sw/astx/do_get_cert.jsp?rnd=175509837570975' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Content-Type: application/x-www-form-urlencoded' \
+  -H 'Origin: https://bank.shinhan.com' \
+  -H 'Referer: https://bank.shinhan.com/index.jsp' \
+  -H 'Sec-Fetch-Dest: empty' \
+  -H 'Sec-Fetch-Mode: cors' \
+  -H 'Sec-Fetch-Site: same-origin' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  --data-raw 'pclog=1'
+
+
+Gets a cert that makes get_pclog work
+
+
+
+{"alg":"1","cert1":"s7nuorznq7z82i_z2PzG2T_3mR0TrPYcm7EH2rWsNBwED3wYGTexlvuprcz32rGp6rnoocm_26ev6e_GoPGpAv-X6d_oz_6wkcN7Gvexo30Qd7nric0zGvvKdrGQqvnrrdGcD3zkdiYNqvnv2cYzG3zId6GGz_mg2cuzr7nxG6_NGVYir6_5Gv_K2erErQG6leNWN3niqrnorcm_Nnev6e_GGvGpmfY0GBEnLrm3m6ewGj60q7z826zumPGGirY5AnYusR0BLPWprr6s2e_pG3mjG6ppGvz826_t2BmjGrupdfN8AveLL6zR2PEsid-PL70nre0pk8ek6vJPz3YcAfzOSPSXzv0ELRGO27_527GfScYp6ohCGep0d80ckrIPqRGpArhIoj_DzshKq7_YGQrIAjeylvEcDPPnq3YDS8uC5Peal2Y2D8NKoceOzvGI2R6Yod0MNvG_SeLPLrvIzPW9LiNWoivx5PeeSxztr7zLr7NdqiNHl3KO63hQN_N0o7CTGe-ts70MGrzlonzsmilTSdzw6QGi6vnjAyw_2imEd7WWdvzl63hHGczbzT0LSQ_RXP_OzPwidv03lswXiR6-AiY7r8lXq_YMrrufSjlPkc6TGr_ad768A3GNGsJK5nLI2eGlAj_kq80Xod0l267IA3zlNxNwAd_socpcoeuvlr_dAQ6NdVYC6TzzD_e62RNXmr0_Dx0Wm7hu2dms2j0_djpo2rbxoTm5kiu_r6exkd-WA6VMN6Yiq8082cm_2r_r2rWsNBwEsR0MDrSWmTps26_TG7_pdPzprr6pLxznm__WG7wNm769dcGj2Rw0A3m-2c7MS_pX6vZxDe_W2ibndiY0oRGwk_ZXN3YzzrG7SsCOLd0L2rrni7GTAQvB6PNvlinOr7vtq7NtNvNHSnzpm_NQN3wazRm3zf0pqjmsdBwX5B666BPTm2Y9iQG_znNN5xLtlj6lSB0GAfGdzohM5x6CrRG0oT6tz606LTNzAjuEljNeDBhODR-n2PNgAP0wlyw0ddpfmeNxsj06S8euleNao6_Qoj7I6PYXDrnDmrwBiivt66Y8lfmti7zvz_mYl3zzmvzfldmHDRwrGi65l_rM2RYs2TGu2R7XSrEnkiukod0NSdpWic0nA8mlDr6yzczIoRzoA3hHoRzIrnmRGjmXS_eCoRZMm7NHrRGL2BCMleGIl7eYL6NMzZYoqihGoBZnrQNtiiu2dx0sirWzGOwuk_pp2QlWqcunGcu9SPLxq8LMGvvh92b*","ipaddr":"211.217.169.174","ncert":"1","nlog":"1","norsa":"0","result":"ACK","svr":"shinhanbank","uniq":"E89BFFA185B19806C3C608AED9D0329938F0344C998C6696D6020156DD0BB57D","utime":"1755098595","ver":"1"}
+
+
+https://lx.astxsvc.com:55920/ASTX2/set_cert?v=3&step=1&cert=s7nuorznq7z82i_z2PzG2T_3mR0TrPYcm7EH2rWsNBwED3wYGTexlvuprcz32rGp6rnoocm_26ev6e_GoPGpAv-X6d_oz_6wkcN7Gvexo30Qd7nric0zGvvKdrGQqvnrrdGcD3zkdiYNqvnv2cYzG3zId6GGz_mg2cuzr7nxG6_NGVYir6_5Gv_K2erErQG6leNWN3niqrnorcm_Nnev6e_GGvGpmfY0GBEnLrm3m6ewGj60q7z826zumPGGirY5AnYusR0BLPWprr6s2e_pG3mjG6ppGvz826_t2BmjGrupdfN8AveLL6zR2PEsid-PL70nre0pk8ek6vJPz3YcAfzOSPSXzv0ELRGO27_527GfScYp6ohCGep0d80ckrIPqRGpArhIoj_DzshKq7_YGQrIAjeylvEcDPPnq3YDS8uC5Peal2Y2D8NKoceOzvGI2R6Yod0MNvG_SeLPLrvIzPW9LiNWoivx5PeeSxztr7zLr7NdqiNHl3KO63hQN_N0o7CTGe-ts70MGrzlonzsmilTSdzw6QGi6vnjAyw_2imEd7WWdvzl63hHGczbzT0LSQ_RXP_OzPwidv03lswXiR6-AiY7r8lXq_YMrrufSjlPkc6TGr_ad768A3GNGsJK5nLI2eGlAj_kq80Xod0l267IA3zlNxNwAd_socpcoeuvlr_dAQ6NdVYC6TzzD_e62RNXmr0_Dx0Wm7hu2dms2j0_djpo2rbxoTm5kiu_r6exkd-WA6VMN6Yiq8082cm_2r_r2rWsNBwEsR0MDrSWmTps26_TG7_pdPzprr6pLxznm__WG7wNm769dcGj2Rw0A3m-2c7MS_pX6vZxDe_W2ibndiY0oRGwk_ZXN3YzzrG7SsCOLd0L2rrni7GTAQvB6PNvlinOr7vtq7NtNvNHSnzpm_NQN3wazRm3zf0pqjmsdBwX5B666BPTm2Y9iQG_znNN5xLtlj6lSB0GAfGdzohM5x6CrRG0oT6tz606LTNzAjuEljNeDBhODR-n2PNgAP0wlyw0ddpfmeNxsj06S8euleNao6_Qoj7I6PYXDrnDmrwBiivt66Y8lfmti7zvz_mYl3zzmvzfldmHDRwrGi65l_rM2RYs2TGu2R7XSrEnkiukod0NSdpWic0nA8mlDr6yzczIoRzoA3hHoRzIrnmRGjmXS_eCoRZMm7NHrRGL2BCMleGIl7eYL6NMzZYoqihGoBZnrQNtiiu2dx0sirWzGOwuk_pp2QlWqcunGcu9SPLxq8LMGvvh92b*&pageid=1755090254329&callback=jQuery1113011939648502115907_1755090256857&_=1755090256873
+
+Here’s the “shape” of the `get_pclog` call your daemon expects, plus what each field means and what comes back. This matches the code you reversed (`handleGetPCLog` → `getS2CDataVersion1`).
+
+# Endpoint
+
+```
+GET https://lx.astxsvc.com:55920/ASTX2/get_pclog
+```
+
+(Any site can hit your **local** daemon on 127.0.0.1 via this origin; the daemon doesn’t require same-origin.)
+
+# Common query params
+
+* `v`, `ver` — protocol/app version (just logged).
+* `alg` — **how the payload is encoded**:
+
+  * `1` = only **custom-Base64** decode (no RSA/AES).
+  * `2` or `3` = **RSA-wrapped AES** (RSA decrypt AES key, then AES-CBC decrypt data).
+* `svr` — server/bank tag for logging.
+* `norsa` — flag (0/1) that ends up in logs/UI.
+* `uniq` — per-client token/ID (freeform; just logged).
+* `utime` — epoch seconds (logged).
+* `nlog`, `ipaddr`, `pageid`, `opt` — misc metadata for logs.
+* `callback` + `_` — JSONP wrapper and cache-buster.
+
+## Payload params (depend on `alg`)
+
+* When `alg=1`:
+
+  * `salt` — integer > 0; drives the **custom Base64 alphabet**.
+  * `data_encoded` — the custom-base64’d payload. The daemon calls `initCustomBase64Context(salt)` then `decodeWithCustomBase64(data_encoded)`. No RSA/AES at all.
+* When `alg=2` or `3`:
+
+  * `aes_key_encoded` — Base64 of **RSA-encrypted AES key** (PKCS#1 style).
+  * `data_encoded` — Base64 of **AES-CBC-encrypted** data.
+  * Internally: daemon loads the **local RSA private key** (the one you extracted), RSA-decrypts `aes_key_encoded` → AES key, then AES-decrypts `data_encoded`. (The Base64 here is their “context 8”, which behaves like standard Base64.)
+
+# Typical request examples
+
+### A) `alg=1` (custom-Base64 only)
+
+```
+GET /ASTX2/get_pclog
+    ?v=3&ver=1&alg=1&svr=<bank>&norsa=0
+    &salt=5
+    &data_encoded=<customB64_of_plaintext>
+    &uniq=<id>&utime=<ts>&nlog=1&ipaddr=<ip>&pageid=<pid>
+    &callback=jQuery12345_...&_=<ts>
+```
+
+### B) `alg=2` (RSA-wrapped AES)
+
+```
+GET /ASTX2/get_pclog
+    ?v=3&ver=1&alg=2&svr=<bank>&norsa=0
+    &aes_key_encoded=<B64(RSA_pub(client).encrypt(AES_key))>
+    &data_encoded=<B64(AES_CBC(AES_key, iv, plaintext))>
+    &uniq=<id>&utime=<ts>&nlog=1&ipaddr=<ip>&pageid=<pid>
+    &callback=jQuery12345_...&_=<ts>
+```
+
+# Response format
+
+**Always JSONP**:
+
+```js
+<callback>({
+  "pclog_data": "<string>",   // decrypted/plain (alg=1) or whatever the daemon produced
+  "result": "ACK"
+})
+```
+
+* If decoding fails, `"pclog_data"` may be empty and they’ll still log lots of debug lines internally.
+
+# Other related endpoint
+
+* `/ASTX2/hello` returns:
+
+  ```js
+  <callback>({
+    "client_public_key": "-----BEGIN PUBLIC KEY----- ...",
+    "result": "ACK"
+  })
+  ```
+
+  That key is the **static client RSA public key** shipped in the config. Any page can fetch it from the daemon and use it to craft an `alg=2/3` request.
+
+# Practical upshot
+
+* With `alg=1`: anyone with the **salt** can send `data_encoded` using the custom alphabet and the daemon will just decode it.
+* With `alg=2/3`: **any site** can use the public key from `/hello`, wrap an AES key, and the daemon will act as a **local RSA→AES decryption oracle**, returning plaintext in `pclog_data`—because the daemon has the matching private key locally.

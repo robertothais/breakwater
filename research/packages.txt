@@ -1,0 +1,87 @@
+AhnLab Safe Transaction (ASTx)
+
+Windows
+• https://safetx.ahnlab.com/master/win/default/all/astx_setup.exe
+
+Linux (Debian/Ubuntu)
+• https://safetx.ahnlab.com/master/linux/astx_u32.deb
+• https://safetx.ahnlab.com/master/linux/astx_u64.deb
+
+Linux (Fedora/RPM)
+• https://safetx.ahnlab.com/master/linux/astx_f32.rpm
+• https://safetx.ahnlab.com/master/linux/astx_f64.rpm
+
+macOS
+• https://safetx.ahnlab.com/master/mac/astx.dmg
+
+⸻
+
+AnySign (SoftForum / SignKorea)
+
+Windows
+• https://download.softforum.com/Published/AnySign/v1.1.4.4/AnySign_Installer.exe
+
+Linux (Deb/Ubuntu)
+• https://download.softforum.com/Published/AnySign/v1.1.4.4/anysign4pc_linux_i386.deb
+• https://download.softforum.com/Published/AnySign/v1.1.4.4/anysign4pc_linux_x86_64.deb
+
+Linux (RPM/Fedora)
+• https://download.softforum.com/Published/AnySign/v1.1.4.4/anysign4pc_linux_i386.rpm
+• https://download.softforum.com/Published/AnySign/v1.1.4.4/anysign4pc_linux_x86_64.rpm
+
+macOS
+• https://download.softforum.com/Published/AnySign/v1.1.4.4/anysign4pc_mac_universal.pkg
+
+⸻
+
+TouchEn NxKey (keyboard security)
+
+Chrome/Chromium extension (sideloaded .crx)
+• https://esop.ksfc.co.kr/product/touchennxkey/nxKey/module/chrome_extension_v1.0.1.12.crx
+
+Windows installers
+• https://esop.ksfc.co.kr/product/touchennxkey/nxKey/module/TouchEn_nxKey_Installer_32bit.exe
+• https://esop.ksfc.co.kr/product/touchennxkey/nxKey/module/TouchEn_nxKey_Installer_64bit.exe
+
+⸻
+
+ePageSaferRT (tamper/secure viewer)
+
+Windows
+• https://esop.ksfc.co.kr/product/epagesafer/NOAX_RT/bin/Setup_ePageSaferRT.exe
+
+macOS
+• https://esop.ksfc.co.kr/product/epagesafer/NOAX_RT/bin/MaSafeViewer.pkg
+
+⸻
+
+SKCertService (certificate issuance)
+
+Windows
+• https://esop.ksfc.co.kr/product/signkorea/SKCertService/app/install/SKCertServiceSetup_v2.5.28_193.exe
+
+macOS
+• https://esop.ksfc.co.kr/product/signkorea/SKCertService/app/install/SKCertServiceSetup_v2.5.18.dmg
+
+⸻
+
+KSCertRelayNX (certificate copy/transfer)
+
+Windows
+• https://esop.ksfc.co.kr/product/kswcr/nxCR/module/KSCertRelay_nx_Installer_32bit.exe
+• https://esop.ksfc.co.kr/product/kswcr/nxCR/module/KSCertRelay_nx_Installer_64bit.exe
+
+macOS
+• https://esop.ksfc.co.kr/product/kswcr/nxCR/module/KSCertRelay_nx_Installer.pkg
+
+⸻
+
+Veraport (meta-installer)
+• Actual binary URL is indirect via fn_getVpDownloadURL(pkgType, true); the JS that defines it is loaded from:
+• https://esop.ksfc.co.kr/product/veraport/veraport20.js
+• https://esop.ksfc.co.kr/product/veraport/veraport20_multi.js
+• https://esop.ksfc.co.kr/product/veraport/veraport20_handler.js
+• https://esop.ksfc.co.kr/product/veraport/install20/install_internal.js
+• https://esop.ksfc.co.kr/product/veraport/install20/install_config.js
+
+Source: https://esop.ksfc.co.kr/ebs/c/sg/jsp/xml/CSGSPI010CX000M.xml

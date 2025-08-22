@@ -1,0 +1,53 @@
+# ASTx HTTP API Router Analysis
+
+## Main Router Discovery
+Found the main ASTx web API router in `astxdaemon` binary:
+- **Function**: `FUN_080b8f84` → `handleHttpRequest`
+- **Purpose**: Routes HTTP requests from AhnLab servers to appropriate handlers
+
+## API Endpoints
+All endpoints use `/ASTX2/` prefix:
+
+### 1. `/ASTX2/hello` → `processTransactionAcknowledgment()`
+- RSA public key processing and transaction acknowledgment
+- Initial handshake/authentication endpoint
+- Uses decoded RSA keys from AppConfig
+
+### 2. `/ASTX2/check` → Status/validation check
+- Handler: `FUN_080b662a()`
+- Purpose: Unknown validation or status check
+
+### 3. `/ASTX2/alive` → Keepalive/heartbeat
+- Handler: `FUN_080b6814()`
+- Purpose: heartbeat
+
+### 4. `/ASTX2/initForML`
+- Handler: `FUN_080b68b8()`
+
+
+### 5. `/ASTX2/set_cert` → Certificate management
+- Handler: `FUN_080b6d72()`
+- Purpose: Certificate installation/management
+
+### 6. `/ASTX2/get_pclog` → **PC surveillance data upload**
+- Handler: `processPCLogData()`
+- **Critical**: Primary channel for uploading encrypted telemetry
+- Uses decoded RSA keys for data encryption
+- Main surveillance data exfiltration endpoint
+
+## Protocol Details
+- **HTTP Methods**: OPTIONS requests ignored, others processed
+- **Response Format**: Callback-wrapped (likely JSONP API)
+- **Debug Logging**: All requests logged via "GetResponseData" function
+- **URL Parsing**: Extracts action parameter from `/ASTX2/[action]` pattern
+
+## Security Implications
+1. **Surveillance Channel**: `/ASTX2/get_pclog` is the primary data exfiltration endpoint
+2. **Authentication**: `/ASTX2/hello` establishes secure channel using RSA keys
+3. **ML Component**: Unknown machine learning functionality via `/ASTX2/initForML`
+4. **Certificate Management**: Dynamic certificate updates via `/ASTX2/set_cert`
+
+## References
+- Router function: `FUN_080b8f84` in `/opt/AhnLab/ASTx/astxdaemon`
+- Debug identifier: "GetResponseData"
+- Related: RSA key decoding enables decryption of `/ASTX2/get_pclog` traffic

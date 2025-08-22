@@ -1,0 +1,35 @@
+# ASTx Network Communication Components
+
+## Overview
+Binary string analysis reveals that multiple ASTx components contain embedded surveillance server URLs, indicating a distributed network communication architecture.
+
+## Network Communication by Component
+
+### License Activation Components
+**SUarez/bin/suarez** and **lib/Ambass/libambass.so**:
+- https://gactivation.ahnlab.com/api/auth/v1/activate/client
+- https://gactivation.ahnlab.com/api/auth/v1/activate/relay  
+- https://gactivation.ahnlab.com/api/auth/v1/activate/client/activation-code/change
+- https://gactivation.ahnlab.com/api/auth/v1/healthcheck
+- https://mgactivation.ahnlab.com/api/auth/v1/activate/client
+- https://mgactivation.ahnlab.com/api/auth/v1/activate/relay
+- https://mgactivation.ahnlab.com/api/auth/v1/activate/client/activation-code/change  
+- https://mgactivation.ahnlab.com/api/auth/v1/healthcheck
+
+### Data Exfiltration Components
+**astxdaemon**, **astxUpdate**, and **astxUninstall**:
+- http://ispt.ahnlab.com/status
+
+## Architecture Analysis
+- **Shared library approach**: libambass.so contains same activation URLs as SUarez binary
+- **Distributed endpoints**: Different binaries handle different surveillance functions
+- **Redundant servers**: Both gactivation.ahnlab.com and mgactivation.ahnlab.com variants
+- **Multiple touch points**: Data exfiltration capability present in daemon, updater, and uninstaller
+
+## Technical Observations
+- License activation uses HTTPS endpoints with structured REST API paths
+- Data exfiltration uses simple HTTP endpoint (/status)
+- All binaries examined contain at least one surveillance server URL
+- No network URLs found in main astxdaemon beyond data exfiltration endpoint
+
+Date: August 15, 2025

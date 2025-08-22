@@ -1,0 +1,122 @@
+# ASTx Spyware Data Exfiltration Analysis
+
+**Date:** 2025-08-14
+**Function:** `sendInsightData()` (address unknown)
+**Classification:** Main telemetry/surveillance data transmission function
+
+## Overview
+
+The `sendInsightData()` function is ASTx's primary data exfiltration mechanism, responsible for collecting system intelligence, packaging it, transmitting it to AhnLab servers, and destroying evidence.
+
+## Target Infrastructure
+
+**Primary Server:** `http://ispt.ahnlab.com/status`
+- **Domain Analysis:** "ispt" likely stands for "Insight Post" or "Insight Status"
+- **Purpose:** AhnLab's dedicated telemetry collection endpoint
+- **Protocol:** HTTP POST with 30-second timeout
+
+## Function Analysis
+
+### Phase 1: Data Collection
+```c
+local_5a8 = FUN_0811d98c(local_5c0);        // AddSysAnalysis - system profiling
+local_5a8 = FUN_0811ed92(local_5c0, param_2); // MakeBody - package data
+local_5a8 = FUN_08120d26(local_5c0, local_570); // MakeInsightData - format for transmission
+```
+
+### Phase 2: Data Transmission
+```c
+// Builds POST body: "insight=<collected_data>"
+_ZStlsISt11char_traitsIcEERSt13basic_ostreamIcT_ES5_PKc(local_4e8,"insight=");
+
+// Send to AhnLab servers
+local_5a8 = sendPost(local_5c0, "http://ispt.ahnlab.com/status", local_500, local_560, 0x1e);
+```
+
+**POST Format:**
+- Content-Type: (likely application/x-www-form-urlencoded)
+- Body: `insight=<base64_or_encrypted_payload>`
+- Timeout: 30 seconds
+
+### Phase 3: Evidence Destruction
+After successful transmission, systematically deletes surveillance files:
+
+```c
+// Loop through collected file list
+while (uVar4 = FUN_0809e412(local_57c), uVar4 > local_5b4) {
+    // Get filename from list
+    uVar2 = FUN_0809e432(local_57c, local_5b4);
+
+    // Delete file
+    local_5a8 = FUN_0812978a(local_5c0, uVar2);
+
+    // Log deletion
+    snprintf(local_420, 0x400, "[SendInsightData] DeleteFile [%s]", filename);
+}
+```
+
+## Security Implications
+
+1. **Anti-Forensics:** Automatically destroys evidence after successful transmission
+2. **Stealth Communication:** Uses legitimate-looking HTTP to AhnLab domains
+3. **System Profiling:** Collects comprehensive system intelligence
+4. **Persistent Surveillance:** Part of continuous monitoring infrastructure
+
+## Debug Log Evidence
+
+The function generates extensive debug logs:
+- `"[SendInsightData] ipSendType [%d]"`
+- `"[SendInsightData] strInsightData [%s]"`
+- `"[SendInsightData] DeleteFile [%s]"`
+- `"[SendInsightData] file not found [%s]"`
+- `"[SendInsightData] failed to DeleteFile [%s]. err [%d]"`
+
+## Network Interception Strategy
+
+For WebAssembly/CheerpX analysis, intercept:
+
+```javascript
+networkInterface: {
+  "ispt.ahnlab.com/status": (postData) => {
+    console.log("INTERCEPTED SPYWARE PAYLOAD:", postData.body);
+    logInsightData(postData.body);
+    return mockSuccessResponse(); // Allow deletion phase to proceed
+  }
+}
+```
+
+## Error Codes
+
+- `0x16` (22): Invalid send type parameter
+- `0x3d` (61): Empty response buffer
+- `0x1c` (28): Network timeout
+- Return code `2`: File not found during deletion
+
+## Related Functions
+
+- `FUN_0811d98c()`: System analysis collection
+- `FUN_0811ed92()`: Data packaging/encoding
+- `FUN_08120d26()`: Format data for transmission
+- `FUN_08127076()`: Analyze server response
+- `FUN_0812978a()`: File deletion utility
+- `sendPost()`: HTTP POST transmission
+- `formatTimestamp()`: Debug log timestamping
+- `writeDebugLog()`: Debug log writing
+
+## Assessment
+
+This function represents the **core surveillance capability** of ASTx. It demonstrates:
+
+1. **Systematic Intelligence Gathering:** Comprehensive system profiling
+2. **Covert Communication:** Transmission to legitimate AhnLab infrastructure
+3. **Anti-Detection:** Automatic evidence destruction
+4. **Professional Implementation:** Robust error handling and logging
+
+The function's sophistication suggests this is not accidental telemetry but a designed surveillance mechanism with operational security considerations.
+
+## Mitigation
+
+- **Network Monitoring:** Block/monitor `ispt.ahnlab.com`
+- **File System Monitoring:** Watch for systematic file deletions
+- **Process Monitoring:** Monitor for `sendPost()` HTTP activity
+- **Memory Analysis:** Dump process memory before transmission phase

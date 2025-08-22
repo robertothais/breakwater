@@ -1,0 +1,51 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+# Set up environment variables needed for execution
+export QT_QPA_PLATFORM=${QT_QPA_PLATFORM:-offscreen}
+export QT_QPA_PLATFORM_PLUGIN_PATH=${QT_QPA_PLATFORM_PLUGIN_PATH:-/opt/AhnLab/ASTx/lib/Qt/plugins/platforms}
+export DISPLAY=${DISPLAY:-:0.0}
+
+# Create fake /proc/cpuinfo matching dmidecode Lenovo ThinkPad persona
+cat > /tmp/fake_cpuinfo << 'EOF'
+processor	: 0
+vendor_id	: GenuineIntel
+cpu family	: 6
+model		: 142
+model name	: Intel(R) Core(TM) i5-8250U CPU @ 1.60GHz
+stepping	: 10
+microcode	: 0xea
+cpu MHz		: 1800.000
+cache size	: 6144 KB
+physical id	: 0
+siblings	: 8
+core id		: 0
+cpu cores	: 4
+apicid		: 0
+initial apicid	: 0
+fpu		: yes
+fpu_exception	: yes
+cpuid level	: 22
+wp		: yes
+flags		: fpu vme de pse tsc msr pae mce cx8 apic sep mtrr pge mca cmov pat pse36 clflush dts acpi mmx fxsr sse sse2 ss ht tm pbe syscall nx pdpe1gb rdtscp lm constant_tsc art arch_perfmon pebs bts rep_good nopl xtopology nonstop_tsc cpuid aperfmperf pni pclmulqdq dtes64 monitor ds_cpl vmx est tm2 ssse3 sdbg fma cx16 xtpr pdcm pcid sse4_1 sse4_2 x2apic movbe popcnt tsc_deadline_timer aes xsave avx f16c rdrand lahf_lm abm 3dnowprefetch cpuid_fault epb invpcid_single pti ssbd ibrs ibpb stibp tpr_shadow vnmi flexpriority ept vpid ept_ad fsgsbase tsc_adjust bmi1 avx2 smep bmi2 erms invpcid mpx rdseed adx smap clflushopt intel_pt xsaveopt xsavec xgetbv1 xsaves dtherm ida arat pln pts hwp hwp_notify hwp_act_window hwp_epp md_clear flush_l1d
+bogomips	: 3600.00
+clflush size	: 64
+cache_alignment	: 64
+address sizes	: 39 bits physical, 48 bits virtual
+power management:
+
+EOF
+
+# Mount fake /proc/cpuinfo over the real one
+mount --bind /tmp/fake_cpuinfo /proc/cpuinfo
+echo "[ASTx Bridge] Mounted fake /proc/cpuinfo (Intel i5-8250U matching ThinkPad persona)"
+
+# Start socat HTTP proxy: port 8080 (plain HTTP) -> 55920 (daemon's HTTPS with ignored certs)
+socat TCP-LISTEN:8080,reuseaddr,fork \
+  OPENSSL:127.0.0.1:55920,verify=0 &
+
+echo "[ASTx Bridge] Started socat HTTP proxy: localhost:8080 -> daemon:55920"
+
+# Load library shims for both architectures
+exec env LD_PRELOAD="/usr/local/lib/libnetlink_shim32.so:/usr/local/lib/libnetlink_shim64.so:/usr/local/lib/libconnection_spoof32.so:/usr/local/lib/libconnection_spoof64.so:/usr/local/lib/libexec_tracer32.so:/usr/local/lib/libexec_tracer64.so${LD_PRELOAD:+:$LD_PRELOAD}" \
+  /opt/AhnLab/ASTx/astxdaemon --system 2>&1 | grep -v "wrong ELF class"
