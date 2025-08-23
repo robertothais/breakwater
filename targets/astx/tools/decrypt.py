@@ -1,8 +1,9 @@
-#!/usr/bin/env python3
+#!/usr/bin/env -S uv --quiet run --script
 """
 ASTx Unified Decryption Tool
 """
 
+import logging
 import sys
 import urllib.error
 import urllib.request
@@ -13,10 +14,26 @@ from crypto_helpers import (
     CipherMode,
     DataFormat,
     KeyDerivationMode,
+    configure_crypto_logging,
     decode_obfuscated_rsa_keys,
     decrypt_data,
     decrypt_file,
 )
+
+# Common arguments
+VerboseOption = typer.Option(
+    0,
+    "--verbose",
+    "-v",
+    count=True,
+    help="Increase verbosity (-v: progress, -vv: debug)",
+)
+QuietOption = typer.Option(
+    False, "--quiet", "-q", help="Suppress all output except content and errors"
+)
+
+# Main logger for decrypt operations
+logger = logging.getLogger("astx.decrypt")
 
 app = typer.Typer(help="ASTx Unified Decryption Tool")
 config_app = typer.Typer(help="Configuration file decryption")
@@ -26,14 +43,15 @@ app.add_typer(config_app, name="config")
 def run_full_decryption():
     """Run complete decryption of all ASTx configuration files"""
 
-    print("[!] ASTx Master Configuration Decryptor v1.0")
-    print("=" * 55)
+    logger.info("[!] ASTx Master Configuration Decryptor v1.0")
+    logger.info("=" * 55)
 
     success_count = 0
     total_count = 0
 
     # 1. Decrypt local AppConfig file
-    print("\n[>] Phase 1: Local AppConfig Files")
+    logger.info("")
+    logger.info("[>] Phase 1: Local AppConfig Files")
     appconfig_path = Path("unpacked/rootfs/opt/AhnLab/ASTx/ConfigFile/appconfig.xml")
     match decrypt_file(
         appconfig_path, DataFormat.BASE64, KeyDerivationMode.XOR, CipherMode.AES_CBC
@@ -47,7 +65,8 @@ def run_full_decryption():
     total_count += 1
 
     # 2. Extract URLs from decrypted AppConfig and download remote files
-    print("\n[>] Phase 2: Remote Files (from AppConfig URLs)")
+    logger.info("")
+    logger.info("[>] Phase 2: Remote Files (from AppConfig URLs)")
     decrypted_appconfig = Path("analysis/decrypted/appconfig.xml")
 
     if decrypted_appconfig.exists():
@@ -63,11 +82,12 @@ def run_full_decryption():
                 success_count += 1
             total_count += 1
     else:
-        print("    [!] AppConfig not decrypted, skipping remote downloads")
+        logger.warning("    [!] AppConfig not decrypted, skipping remote downloads")
         total_count += 2
 
     # 3. Decrypt local starter policy file
-    print("\n[>] Phase 3: Local Policy Files")
+    logger.info("")
+    logger.info("[>] Phase 3: Local Policy Files")
     local_starter = Path(
         "unpacked/rootfs/opt/AhnLab/ASTx/ConfigFile/starter_ply_linux.html"
     )
@@ -86,11 +106,14 @@ def run_full_decryption():
     # as they may use different encryption methods
 
     # Summary
-    print("\n" + "=" * 55)
-    print(f"[+] Decryption Complete: {success_count}/{total_count} files processed")
+    logger.info("")
+    logger.info("=" * 55)
+    logger.info(
+        "[+] Decryption Complete: %d/%d files processed", success_count, total_count
+    )
 
     if success_count > 0:
-        print("[+] Decrypted files saved to: analysis/decrypted/")
+        logger.info("[+] Decrypted files saved to: analysis/decrypted/")
 
     return success_count == total_count
 
@@ -117,18 +140,24 @@ def extract_urls_from_appconfig(appconfig_file: Path):
         return starter_url, version_url
 
     except Exception as e:
-        print(f"    [-] Error extracting URLs from AppConfig: {e}")
+        logger.error("    [-] Error extracting URLs from AppConfig: %s", e)
         return None, None
 
 
 @config_app.command("all")
-def decrypt_all_configs():
+def decrypt_all_configs(
+    verbose: int = VerboseOption,
+    quiet: bool = QuietOption,
+):
     """
     Run complete decryption of all ASTx configuration files.
 
     Identical behavior to original decrypt_configs.py script.
     """
     try:
+        # Setup logging for the full decryption routine
+        logger = setup_logging_and_verbosity(verbose, quiet, False)
+
         success = run_full_decryption()
 
         # After full decryption, attempt RSA key decoding
@@ -138,20 +167,21 @@ def decrypt_all_configs():
         return 0 if success else 1
 
     except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+        error_logger = logging.getLogger("astx.decrypt")
+        error_logger.error("Error: %s", e)
         return 1
 
 
 def download_and_decrypt(url: str, output_name: str, key: bytes | None = None):
     """Download encrypted file from URL and decrypt it"""
 
-    print(f"[*] Downloading: {url}")
+    logger.info("[*] Downloading: %s", url)
 
     try:
         with urllib.request.urlopen(url) as response:
             encrypted_data = response.read()
 
-        print(f"    [+] Downloaded {len(encrypted_data)} bytes")
+        logger.info("    [+] Downloaded %d bytes", len(encrypted_data))
 
         decrypted_data = decrypt_data(
             encrypted_data, DataFormat.BASE64, KeyDerivationMode.XOR, CipherMode.AES_CBC
@@ -161,10 +191,10 @@ def download_and_decrypt(url: str, output_name: str, key: bytes | None = None):
         return True
 
     except urllib.error.URLError as e:
-        print(f"    [-] Download failed: {e}")
+        logger.error("    [-] Download failed: %s", e)
         return False
     except Exception as e:
-        print(f"    [-] Error downloading/decrypting {url}: {e}")
+        logger.error("    [-] Error downloading/decrypting %s: %s", url, e)
         return False
 
 
@@ -180,14 +210,69 @@ def save_decrypted_file(content: bytes, filename: str) -> Path:
         text = content.decode("utf-8")
         with open(output_file, "w", encoding="utf-8") as f:
             f.write(text)
-        print(f"[+] Saved decrypted text file: {output_file}")
+        logger.info("[+] Saved decrypted text file: %s", output_file)
     except UnicodeDecodeError:
         # Save as binary if text decoding fails
         with open(output_file, "wb") as f:
             f.write(content)
-        print(f"[+] Saved decrypted binary file: {output_file}")
+        logger.info("[+] Saved decrypted binary file: %s", output_file)
 
     return output_file
+
+
+def display_content(content: bytes, quiet: bool = False):
+    """Display content to stdout, with optional binary content info to stderr"""
+
+    # Try to decode as text
+    try:
+        text_content = content.decode("utf-8")
+        print(text_content, end="")  # No extra newline
+    except UnicodeDecodeError:
+        # For binary content, show info to stderr and raw content to stdout
+        if not quiet:
+            print(f"[*] Binary content ({len(content)} bytes)", file=sys.stderr)
+            if len(content) > 0:
+                print(f"[*] First 64 bytes: {content[:64].hex(' ')}", file=sys.stderr)
+        # Output raw binary to stdout for redirection
+        sys.stdout.buffer.write(content)
+
+
+def setup_logging_and_verbosity(
+    verbose: int = 0, quiet: bool = False, is_redirected: bool = False
+):
+    """Setup logging levels based on verbosity and output redirection"""
+
+    # Setup main decrypt logger
+    decrypt_logger = logging.getLogger("astx.decrypt")
+
+    if quiet or is_redirected:
+        # Completely quiet - errors only
+        crypto_level = logging.ERROR
+        decrypt_level = logging.ERROR
+    elif verbose == 0:
+        # Default - basic status messages
+        crypto_level = logging.WARNING
+        decrypt_level = logging.INFO
+    elif verbose == 1:
+        # -v: Show crypto progress
+        crypto_level = logging.INFO
+        decrypt_level = logging.INFO
+    else:
+        # -vv: Full debug
+        crypto_level = logging.DEBUG
+        decrypt_level = logging.DEBUG
+
+    # Configure crypto logging
+    configure_crypto_logging(crypto_level)
+
+    # Configure decrypt logging
+    decrypt_logger.setLevel(decrypt_level)
+    if not decrypt_logger.handlers:
+        handler = logging.StreamHandler(sys.stderr)
+        handler.setFormatter(logging.Formatter("%(message)s"))
+        decrypt_logger.addHandler(handler)
+
+    return decrypt_logger
 
 
 @config_app.command("file")
@@ -200,42 +285,51 @@ def decrypt(
         KeyDerivationMode.STATIC, "--key", help="Key derivation: xor, evp, or static"
     ),
     cipher_mode: CipherMode = typer.Option(
-        CipherMode.AES_CBC, "--cipher", help="Cipher mode: aes_cbc or seed_cbc"
+        CipherMode.AES_CBC, "--cipher", help="Cipher mode: aes_cbc"
     ),
+    verbose: int = VerboseOption,
+    quiet: bool = QuietOption,
 ):
     """
     Decrypt a single configuration file.
 
     All parameters can be specified independently for maximum flexibility.
+    Output is sent to stdout for easy redirection.
     """
     try:
+        # Detect if output is being redirected
+        is_redirected = not sys.stdout.isatty()
+
+        # Setup logging based on verbosity and redirection
+        logger = setup_logging_and_verbosity(verbose, quiet, is_redirected)
+
         file_path = Path(file)
         status = 0
         match decrypt_file(file_path, data_format, key_derivation, cipher_mode):
             case (True, content):
-                print(f"[+] Successfully decrypted: {file}")
-                print(
-                    f"    Format: {data_format.value}, Key: {key_derivation.value}, Cipher: {cipher_mode.value}"
+                # Status info via logging
+                logger.info("[+] Successfully decrypted: %s", file)
+                logger.info(
+                    "    Format: %s, Key: %s, Cipher: %s",
+                    data_format.value,
+                    key_derivation.value,
+                    cipher_mode.value,
                 )
-                
-                # Truncate output to 4KB for display
-                MAX_DISPLAY_SIZE = 4096
-                display_content = content[:MAX_DISPLAY_SIZE]
-                truncated = len(content) > MAX_DISPLAY_SIZE
-                
-                print(display_content.hex(" "))
-                print(display_content.decode("utf-8", errors="ignore"))
-                
-                if truncated:
-                    print(f"... [output truncated, showing {MAX_DISPLAY_SIZE}/{len(content)} bytes]")
+                logger.info("    Size: %d bytes", len(content))
+
+                # Content to stdout (for redirection)
+                display_content(content, quiet=quiet or is_redirected)
+
             case (False, _):
-                print(f"[-] Failed to decrypt: {file}")
+                logger.error("[-] Failed to decrypt: %s", file)
                 status = 1
 
         return status
 
     except Exception as e:
-        print(f"Error: {e}", file=sys.stderr)
+        # Always log errors regardless of verbosity
+        error_logger = logging.getLogger("astx.decrypt")
+        error_logger.error("Error: %s", e)
         return 1
 
 

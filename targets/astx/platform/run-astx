@@ -7,7 +7,7 @@ export QT_QPA_PLATFORM_PLUGIN_PATH=${QT_QPA_PLATFORM_PLUGIN_PATH:-/opt/AhnLab/AS
 export DISPLAY=${DISPLAY:-:0.0}
 
 # Create fake /proc/cpuinfo matching dmidecode Lenovo ThinkPad persona
-cat > /tmp/fake_cpuinfo << 'EOF'
+cat >/tmp/fake_cpuinfo <<'EOF'
 processor	: 0
 vendor_id	: GenuineIntel
 cpu family	: 6
@@ -37,8 +37,9 @@ power management:
 EOF
 
 # Mount fake /proc/cpuinfo over the real one
-mount --bind /tmp/fake_cpuinfo /proc/cpuinfo
-echo "[ASTx Bridge] Mounted fake /proc/cpuinfo (Intel i5-8250U matching ThinkPad persona)"
+# mount --bind /tmp/fake_cpuinfo /proc/cpuinfo
+# TODO, doesnt work inside docker.
+# echo "[ASTx Bridge] Mounted fake /proc/cpuinfo (Intel i5-8250U matching ThinkPad persona)"
 
 # Start socat HTTP proxy: port 8080 (plain HTTP) -> 55920 (daemon's HTTPS with ignored certs)
 socat TCP-LISTEN:8080,reuseaddr,fork \
@@ -47,5 +48,25 @@ socat TCP-LISTEN:8080,reuseaddr,fork \
 echo "[ASTx Bridge] Started socat HTTP proxy: localhost:8080 -> daemon:55920"
 
 # Load library shims for both architectures
-exec env LD_PRELOAD="/usr/local/lib/libnetlink_shim32.so:/usr/local/lib/libnetlink_shim64.so:/usr/local/lib/libconnection_spoof32.so:/usr/local/lib/libconnection_spoof64.so:/usr/local/lib/libexec_tracer32.so:/usr/local/lib/libexec_tracer64.so${LD_PRELOAD:+:$LD_PRELOAD}" \
+SHIM_DIR="/usr/local/lib"
+SHIMS=(
+  "libnetlink_shim32.so"
+  "libnetlink_shim64.so"
+  "libconnection_spoof32.so"
+  "libconnection_spoof64.so"
+  "libexec_tracer32.so"
+  "libexec_tracer64.so"
+  "libprocexe32.so"
+  "libprocexe64.so"
+)
+
+# Build LD_PRELOAD string
+PRELOAD_LIST=""
+for shim in "${SHIMS[@]}"; do
+  PRELOAD_LIST="${PRELOAD_LIST}${SHIM_DIR}/${shim}:"
+done
+# Remove trailing colon and append existing LD_PRELOAD if set
+PRELOAD_LIST="${PRELOAD_LIST%:}${LD_PRELOAD:+:$LD_PRELOAD}"
+
+exec env LD_PRELOAD="$PRELOAD_LIST" \
   /opt/AhnLab/ASTx/astxdaemon --system 2>&1 | grep -v "wrong ELF class"

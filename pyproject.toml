@@ -13,6 +13,8 @@ dependencies = [
     "lxml>=4.9.0",
     "cryptography>=45.0.6",
     "pyghidra>=2.2.0",
+    "sysv-ipc>=1.1.0",
+    "setproctitle>=1.3.6",
 ]
 
 [project.scripts]

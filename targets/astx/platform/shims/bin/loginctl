@@ -1,0 +1,8 @@
+#!/bin/sh
+if [ "$1" = "list-users" ]; then
+  # Format that survives their pipeline and excludes root (UID 0)
+  # They grep -v UID, -v listed, -v ^$, then awk to get "UID:USER", drop ^0, keep USER.
+  printf " 1000 alice\n"
+else
+  exec /usr/bin/loginctl "$@"
+fi

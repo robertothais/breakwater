@@ -8,19 +8,22 @@ LIBS = -ldl
 NETLINK_TARGET_32 = libnetlink_shim32.so
 SPOOF_TARGET_32 = libconnection_spoof32.so
 EXEC_TARGET_32 = libexec_tracer32.so
+PROCEXE_TARGET_32 = libprocexe32.so
 
 # 64-bit targets
 NETLINK_TARGET_64 = libnetlink_shim64.so
 SPOOF_TARGET_64 = libconnection_spoof64.so
 EXEC_TARGET_64 = libexec_tracer64.so
+PROCEXE_TARGET_64 = libprocexe64.so
 
 # Source files
 NETLINK_SOURCE = netlink_shim.c
 SPOOF_SOURCE = connection_spoof.c
 EXEC_SOURCE = exec_tracer.c
+PROCEXE_SOURCE = procexe.c
 
 # All targets
-ALL_TARGETS = $(NETLINK_TARGET_32) $(NETLINK_TARGET_64) $(SPOOF_TARGET_32) $(SPOOF_TARGET_64) $(EXEC_TARGET_32) $(EXEC_TARGET_64)
+ALL_TARGETS = $(NETLINK_TARGET_32) $(NETLINK_TARGET_64) $(SPOOF_TARGET_32) $(SPOOF_TARGET_64) $(EXEC_TARGET_32) $(EXEC_TARGET_64) $(PROCEXE_TARGET_32) $(PROCEXE_TARGET_64)
 
 .PHONY: all clean
 
@@ -51,6 +54,14 @@ $(EXEC_TARGET_32): $(EXEC_SOURCE)
 $(EXEC_TARGET_64): $(EXEC_SOURCE)
 	$(CC) $(CFLAGS_64) -o $@ $< $(LIBS)
 	@echo "Built $(EXEC_TARGET_64) (64-bit)"
+
+$(PROCEXE_TARGET_32): $(PROCEXE_SOURCE)
+	$(CC) $(CFLAGS_32) -o $@ $< $(LIBS)
+	@echo "Built $(PROCEXE_TARGET_32) (32-bit)"
+
+$(PROCEXE_TARGET_64): $(PROCEXE_SOURCE)
+	$(CC) $(CFLAGS_64) -o $@ $< $(LIBS)
+	@echo "Built $(PROCEXE_TARGET_64) (64-bit)"
 
 clean:
 	rm -f $(ALL_TARGETS)

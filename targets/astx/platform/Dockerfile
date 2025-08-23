@@ -53,7 +53,9 @@ RUN apt-get update && apt-get -y install --no-install-recommends \
   file binutils build-essential make zsh git tmux \
   strace gdb gdbserver patchelf elfutils kmod \
   lsof iproute2 tcpdump hexyl xxd bsdmainutils netcat-openbsd \
-  wget less vim python3 python3-pip python3-pycryptodome python3-cryptography
+  less vim python3 python3-pip python3-dev python3-pycryptodome python3-cryptography
+
+RUN pip3 install sysv_ipc --break-system-packages
 
 RUN apt-get install -y --no-install-recommends \
   gcc-multilib \
@@ -61,7 +63,7 @@ RUN apt-get install -y --no-install-recommends \
   linux-libc-dev:i386
 
 # Lulz
-RUN apt-get install -y cmatrix hollywood figlet lolcat && \
+RUN apt-get install -y  figlet lolcat && \
   curl -L https://github.com/xero/figlet-fonts/archive/master.tar.gz | \
   tar -xz -C /tmp && \
   cp /tmp/figlet-fonts-master/*.flf /usr/share/figlet/ && \
@@ -75,6 +77,7 @@ RUN curl -sSfL https://raw.githubusercontent.com/ajeetdsouza/zoxide/main/install
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
   mkdir -p ~/.config && \
   sed -i 's/plugins=(git)/plugins=(git zsh-autosuggestions z docker)/' ~/.zshrc && \
+  sed -i 's/ZSH_THEME="robbyrussell"/ZSH_THEME="darkblood"/' ~/.zshrc && \
   echo 'ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE="fg=#5f5f5f"' >> ~/.zshrc && \
   echo 'export PATH="/root/.local/bin:/usr/games:$PATH"' >> ~/.zshrc && \
   echo 'clear && echo' >> ~/.zshrc && \
@@ -84,10 +87,16 @@ RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-~/.
 RUN chsh -s $(which zsh)
 
 # Build library shims
-WORKDIR /tmp/shims
-COPY platform/shims/lib/ .
+WORKDIR /tmp/shims/lib
+COPY platform/shims/src/lib/ .
 RUN make && cp *.so /usr/local/lib/
 
+# Build binary shims
+WORKDIR /tmp/shims/bin
+COPY platform/shims/src/bin/ .
+RUN make install
+
+# Copy shell script shims
 COPY platform/shims/bin/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/*
 

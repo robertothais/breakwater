@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 import base64
 import hashlib
+import logging
 import subprocess
 import sys
 from enum import Enum
@@ -8,8 +9,20 @@ from pathlib import Path
 from typing import Literal
 
 from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.decrepit.ciphers.algorithms import SEED
 from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
+
+# Create logger for crypto operations
+logger = logging.getLogger("astx.crypto")
+
+
+def configure_crypto_logging(level: int = logging.WARNING):
+    """Configure logging level for crypto operations"""
+    logger.setLevel(level)
+    if not logger.handlers:
+        handler = logging.StreamHandler(sys.stderr)
+        handler.setFormatter(logging.Formatter("%(message)s"))
+        logger.addHandler(handler)
+
 
 DecryptResult = tuple[Literal[True], bytes] | tuple[Literal[False], None]
 
@@ -22,7 +35,6 @@ class KeyDerivationMode(str, Enum):
 
 class CipherMode(str, Enum):
     AES_CBC = "aes_cbc"
-    SEED_CBC = "seed_cbc"
 
 
 class DataFormat(str, Enum):
@@ -71,7 +83,7 @@ def derive_xor_key() -> bytes:
         ascii_chars.extend(bytes_le.decode("ascii", errors="ignore"))
 
     xor_string = "".join(ascii_chars).rstrip("\x00")
-    print(f"Reconstructed XOR string: '{xor_string}'", file=sys.stderr)
+    logger.debug("Reconstructed XOR string: '%s'", xor_string)
 
     # Parse numbers using the exact algorithm from FUN_08059915
     # Algorithm: extract consecutive digit sequences, ignore non-digits
@@ -91,7 +103,7 @@ def derive_xor_key() -> bytes:
     if current_number:
         numbers.append(int(current_number))
 
-    print(f"Parsed numbers: {numbers}", file=sys.stderr)
+    logger.debug("Parsed numbers: %s", numbers)
 
     # Generate key by XORing base_key with numbers
     key_bytes = []
@@ -102,35 +114,33 @@ def derive_xor_key() -> bytes:
             xor_number = numbers[i] % 256
             xor_byte = base_byte ^ xor_number
             key_bytes.append(xor_byte)
-            print(
-                f"  byte[{i}]: '{base_key[i]}' ({base_byte}) ^ {numbers[i]}%256={xor_number} = {xor_byte}",
-                file=sys.stderr,
+            logger.debug(
+                "  byte[%d]: '%s' (%d) ^ %d%%256=%d = %d",
+                i,
+                base_key[i],
+                base_byte,
+                numbers[i],
+                xor_number,
+                xor_byte,
             )
         else:
             # No more numbers, use base key as-is
             key_bytes.append(base_byte)
-            print(
-                f"  byte[{i}]: '{base_key[i]}' ({base_byte}) (no XOR)",
-                file=sys.stderr,
-            )
+            logger.debug("  byte[%d]: '%s' (%d) (no XOR)", i, base_key[i], base_byte)
 
     # Convert to 16-byte key for AES
     key_data = bytes(key_bytes)
-    print(
-        f"Key before truncation: length={len(key_data)}, hex={key_data.hex()}",
-        file=sys.stderr,
+    logger.debug(
+        "Key before truncation: length=%d, hex=%s", len(key_data), key_data.hex()
     )
-    print(
-        f"Key as ASCII: {key_data[:16].decode('ascii', errors='ignore')}",
-        file=sys.stderr,
-    )
+    logger.debug("Key as ASCII: %s", key_data[:16].decode("ascii", errors="ignore"))
 
     if len(key_data) > 16:
         key_data = key_data[:16]  # Truncate to 16 bytes
-        print(f"Truncated to 16 bytes: {key_data.hex()}", file=sys.stderr)
+        logger.debug("Truncated to 16 bytes: %s", key_data.hex())
     elif len(key_data) < 16:
         key_data = key_data.ljust(16, b"\x00")  # Pad with zeros
-        print(f"Padded to 16 bytes: {key_data.hex()}", file=sys.stderr)
+        logger.debug("Padded to 16 bytes: %s", key_data.hex())
 
     return key_data
 
@@ -142,10 +152,10 @@ def derive_evp_key() -> tuple[bytes, bytes]:
     """
 
     def evp_bytes_to_key(password: bytes, salt: bytes, key_len: int, iv_len: int):
-        print("    [DEBUG] EVP_BytesToKey input:", file=sys.stderr)
-        print(f"      Password: {password!r} (len={len(password)})", file=sys.stderr)
-        print(f"      Salt: {salt.hex()} (len={len(salt)})", file=sys.stderr)
-        print(f"      Key length: {key_len}, IV length: {iv_len}", file=sys.stderr)
+        logger.debug("EVP_BytesToKey input:")
+        logger.debug("  Password: %r (len=%d)", password, len(password))
+        logger.debug("  Salt: %s (len=%d)", salt.hex(), len(salt))
+        logger.debug("  Key length: %d, IV length: %d", key_len, iv_len)
 
         m = []
         i = 0
@@ -154,26 +164,28 @@ def derive_evp_key() -> tuple[bytes, bytes]:
             md_input += password + salt
             hash_result = hashlib.sha1(md_input).digest()
             m.append(hash_result)
-            print(
-                f"      Round {i}: input={md_input.hex()[:32]}... -> hash={hash_result.hex()}",
-                file=sys.stderr,
+            logger.debug(
+                "  Round %d: input=%s... -> hash=%s",
+                i,
+                md_input.hex()[:32],
+                hash_result.hex(),
             )
             i += 1
         ms = b"".join(m)
         derived_key = ms[:key_len]
         derived_iv = ms[key_len : key_len + iv_len]
-        print("    [DEBUG] EVP_BytesToKey output:", file=sys.stderr)
-        print(f"      Derived key: {derived_key.hex()}", file=sys.stderr)
-        print(f"      Derived IV: {derived_iv.hex()}", file=sys.stderr)
+        logger.debug("EVP_BytesToKey output:")
+        logger.debug("  Derived key: %s", derived_key.hex())
+        logger.debug("  Derived IV: %s", derived_iv.hex())
         return derived_key, derived_iv
 
     passphrase = b"wiprotech1"
     salt = b"\x00" * 8  # 8 zero bytes
     key, _ = evp_bytes_to_key(passphrase, salt, 16, 16)  # AES-128 key + ignore IV
     iv = b"\x00" * 16  # Always use zero IV (matches memset in configureCipher)
-    print("    [DEBUG] Final key/IV used for decryption:", file=sys.stderr)
-    print(f"      Key: {key.hex()}", file=sys.stderr)
-    print(f"      IV:  {iv.hex()}", file=sys.stderr)
+    logger.debug("Final key/IV used for decryption:")
+    logger.debug("  Key: %s", key.hex())
+    logger.debug("  IV:  %s", iv.hex())
     return key, iv
 
 
@@ -188,8 +200,8 @@ def derive_static_guid_key() -> tuple[bytes, bytes]:
 
     # Use same EVP processing as derive_evp_key but with different password
     def evp_bytes_to_key(password: bytes, salt: bytes, key_len: int, iv_len: int):
-        print("    [DEBUG] EVP_BytesToKey for static GUID:", file=sys.stderr)
-        print(f"      Password: {password!r} (len={len(password)})", file=sys.stderr)
+        logger.debug("EVP_BytesToKey for static GUID:")
+        logger.debug("  Password: %r (len=%d)", password, len(password))
 
         m = []
         i = 0
@@ -203,24 +215,12 @@ def derive_static_guid_key() -> tuple[bytes, bytes]:
         return ms[:key_len], ms[key_len : key_len + iv_len]
 
     salt = b"\x00" * 8  # 8 zero bytes
-    key, _ = evp_bytes_to_key(guid_password, salt, 16, 16)  # Ignore derived IV
-    iv = b"\x00" * 16  # Always use zero IV
+    key, iv = evp_bytes_to_key(guid_password, salt, 16, 16)  # Use derived IV
 
-    print(f"    [DEBUG] Final static key: {key.hex()}", file=sys.stderr)
-    print(f"    [DEBUG] Final static IV: {iv.hex()}", file=sys.stderr)
+    logger.debug("Final static key: %s", key.hex())
+    logger.debug("Final static IV: %s", iv.hex())
 
     return key, iv
-
-
-def derive_seed_static_key() -> bytes:
-    """Generate SEED cipher key from hardcoded string"""
-    key = b"AhnlabSecretKey"  # 15 bytes as in binary
-    return key + b"\x00"  # Pad to 16 bytes as seedKeySchedule does
-
-
-def derive_seed_static_iv() -> bytes:
-    """Generate SEED cipher IV from binary analysis"""
-    return bytes([1, 2, 3, 4] + [0] * 12)  # 16 bytes
 
 
 # ============================================================================
@@ -231,13 +231,10 @@ def derive_seed_static_iv() -> bytes:
 def preprocess_base64_decode(data: bytes) -> bytes:
     try:
         decoded = base64.b64decode(data)
-        print(
-            f"    [*] Base64 decoded: {len(data)} -> {len(decoded)} bytes",
-            file=sys.stderr,
-        )
+        logger.info("Base64 decoded: %d -> %d bytes", len(data), len(decoded))
         return decoded
     except Exception as e:
-        print(f"    [-] Base64 decode failed: {e}", file=sys.stderr)
+        logger.error("Base64 decode failed: %s", e)
         raise
 
 
@@ -251,7 +248,7 @@ def preprocess_chunked(data: bytes, key: bytes, iv: bytes) -> bytes:
     Parse chunked log file format: 2-byte length + encrypted chunk (repeat)
     Decrypts each chunk individually and concatenates the results
     """
-    print("    [*] Processing chunked log file format", file=sys.stderr)
+    logger.info("Processing chunked log file format")
 
     decrypted_chunks = []
     offset = 0
@@ -259,9 +256,7 @@ def preprocess_chunked(data: bytes, key: bytes, iv: bytes) -> bytes:
 
     while offset < len(data):
         if offset + 2 > len(data):
-            print(
-                f"    [!] Incomplete chunk header at offset {offset}", file=sys.stderr
-            )
+            logger.warning("Incomplete chunk header at offset %d", offset)
             break
 
         # Read 2-byte little-endian length
@@ -269,16 +264,14 @@ def preprocess_chunked(data: bytes, key: bytes, iv: bytes) -> bytes:
         offset += 2
 
         if chunk_length == 0:
-            print(
-                f"    [*] Zero-length chunk at offset {offset - 2}, stopping",
-                file=sys.stderr,
-            )
+            logger.info("Zero-length chunk at offset %d, stopping", offset - 2)
             break
 
         if offset + chunk_length > len(data):
-            print(
-                f"    [!] Incomplete chunk data: need {chunk_length} bytes, have {len(data) - offset}",
-                file=sys.stderr,
+            logger.warning(
+                "Incomplete chunk data: need %d bytes, have %d",
+                chunk_length,
+                len(data) - offset,
             )
             break
 
@@ -290,22 +283,19 @@ def preprocess_chunked(data: bytes, key: bytes, iv: bytes) -> bytes:
             decrypted_chunk = decrypt_aes_cbc(chunk_data, key, iv)
             decrypted_chunks.append(decrypted_chunk)
         except Exception as e:
-            print(f"    [!] Chunk {chunk_num} decryption failed: {e}", file=sys.stderr)
+            logger.warning("Chunk %d decryption failed: %s", chunk_num, e)
             # Continue with other chunks
 
         chunk_num += 1
 
-    print(
-        f"    [*] Successfully decrypted {len(decrypted_chunks)}/{chunk_num} chunks",
-        file=sys.stderr,
-    )
+    logger.info("Successfully decrypted %d/%d chunks", len(decrypted_chunks), chunk_num)
 
     if len(decrypted_chunks) == 0:
         return b""
 
     # Concatenate decrypted chunks
     result = b"".join(decrypted_chunks)
-    print(f"    [*] Final result: {len(result)} bytes", file=sys.stderr)
+    logger.info("Final result: %d bytes", len(result))
     return result
 
 
@@ -322,7 +312,7 @@ def decrypt_aes_cbc(data: bytes, key: bytes, iv: bytes) -> bytes:
         decrypted = decryptor.update(data) + decryptor.finalize()
         return remove_padding(decrypted)
     except Exception as e:
-        print(f"    [-] AES-CBC decryption failed: {e}", file=sys.stderr)
+        logger.error("AES-CBC decryption failed: %s", e)
         raise
 
 
@@ -337,21 +327,7 @@ def encrypt_aes_cbc(data: bytes, key: bytes, iv: bytes) -> bytes:
         encrypted = encryptor.update(padded_data) + encryptor.finalize()
         return encrypted
     except Exception as e:
-        print(f"    [-] AES-CBC encryption failed: {e}", file=sys.stderr)
-        raise
-
-
-# Change to use custom seed implementation
-def decrypt_seed_cbc(data: bytes, key: bytes, iv: bytes) -> bytes:
-    """Decrypt data using SEED-CBC with custom key and IV"""
-    try:
-        print(f"    [DEBUG] SEED key: {key.hex()}, IV: {iv.hex()}", file=sys.stderr)
-        cipher = Cipher(SEED(key), modes.CBC(iv), backend=default_backend())
-        decryptor = cipher.decryptor()
-        decrypted = decryptor.update(data) + decryptor.finalize()
-        return remove_padding(decrypted)
-    except Exception as e:
-        print(f"    [-] SEED-CBC decryption failed: {e}", file=sys.stderr)
+        logger.error("AES-CBC encryption failed: %s", e)
         raise
 
 
@@ -392,6 +368,56 @@ def remove_padding(data: bytes) -> bytes:
 # ============================================================================
 
 
+def encrypt_data(
+    data: bytes,
+    data_format: DataFormat,
+    key_derivation: KeyDerivationMode,
+    cipher_mode: CipherMode,
+) -> bytes:
+    try:
+        # Step 1: Derive key/IV based on method
+        logger.info("Key derivation: %s", key_derivation.value)
+        if key_derivation == KeyDerivationMode.XOR:
+            key = derive_xor_key()
+            iv = b"\x00" * 16  # Zero IV for XOR method
+        elif key_derivation == KeyDerivationMode.EVP:
+            key, iv = derive_evp_key()  # EVP method returns both
+        elif key_derivation == KeyDerivationMode.STATIC:
+            key, iv = derive_static_guid_key()  # Static GUID key
+        else:
+            raise ValueError(f"Unknown key derivation: {key_derivation}")
+
+        logger.debug("Key: %s..., IV: %s...", key.hex()[:32], iv.hex()[:32])
+
+        # Step 2: Encrypt using specified cipher
+        logger.info("Cipher: %s", cipher_mode.value)
+        if cipher_mode == CipherMode.AES_CBC:
+            encrypted_data = encrypt_aes_cbc(data, key, iv)
+        else:
+            raise ValueError(f"Unknown cipher mode: {cipher_mode}")
+
+        # Step 3: Postprocess data based on format
+        logger.info("Postprocessing: %s", data_format.value)
+        if data_format == DataFormat.BASE64:
+            result = base64.b64encode(encrypted_data)
+            logger.info(
+                "Base64 encoded: %d -> %d bytes", len(encrypted_data), len(result)
+            )
+            return result
+        elif data_format == DataFormat.RAW:
+            return encrypted_data
+        elif data_format == DataFormat.CHUNKED:
+            raise ValueError(
+                "Chunked format not supported for encryption (log file format)"
+            )
+        else:
+            raise ValueError(f"Unknown data format: {data_format}")
+
+    except Exception as e:
+        logger.error("Encryption failed: %s", e)
+        raise
+
+
 def decrypt_data(
     data: bytes,
     data_format: DataFormat,
@@ -400,7 +426,7 @@ def decrypt_data(
 ) -> bytes:
     try:
         # Step 1: Preprocess data based on format
-        print(f"    [*] Preprocessing: {data_format.value}", file=sys.stderr)
+        logger.info("Preprocessing: %s", data_format.value)
         if data_format == DataFormat.BASE64:
             processed_data = preprocess_base64_decode(data)
         elif data_format == DataFormat.RAW:
@@ -412,7 +438,7 @@ def decrypt_data(
             raise ValueError(f"Unknown data format: {data_format}")
 
         # Step 2: Derive key/IV based on method
-        print(f"    [*] Key derivation: {key_derivation.value}", file=sys.stderr)
+        logger.info("Key derivation: %s", key_derivation.value)
         if key_derivation == KeyDerivationMode.XOR:
             key = derive_xor_key()
             iv = b"\x00" * 16  # Zero IV for XOR method
@@ -423,9 +449,7 @@ def decrypt_data(
         else:
             raise ValueError(f"Unknown key derivation: {key_derivation}")
 
-        print(
-            f"    [*] Key: {key.hex()[:32]}..., IV: {iv.hex()[:32]}...", file=sys.stderr
-        )
+        logger.debug("Key: %s..., IV: %s...", key.hex()[:32], iv.hex()[:32])
 
         # Handle chunked format after key derivation
         if data_format == DataFormat.CHUNKED:
@@ -437,19 +461,14 @@ def decrypt_data(
                 )
 
         # Step 3: Decrypt using specified cipher
-        print(f"    [*] Cipher: {cipher_mode.value}", file=sys.stderr)
+        logger.info("Cipher: %s", cipher_mode.value)
         if cipher_mode == CipherMode.AES_CBC:
             return decrypt_aes_cbc(processed_data, key, iv)
-        elif cipher_mode == CipherMode.SEED_CBC:
-            # For SEED, use static key/IV (ignore derived ones)
-            seed_key = derive_seed_static_key()
-            seed_iv = derive_seed_static_iv()
-            return decrypt_seed_cbc(processed_data, seed_key, seed_iv)
         else:
             raise ValueError(f"Unknown cipher mode: {cipher_mode}")
 
     except Exception as e:
-        print(f"    [-] Decryption failed: {e}", file=sys.stderr)
+        logger.error("Decryption failed: %s", e)
         raise
 
 
@@ -460,24 +479,27 @@ def decrypt_file(
     cipher_mode: CipherMode,
 ) -> DecryptResult:
     if not file_path.exists():
-        print(f"[-] File not found: {file_path}")
+        logger.error("File not found: %s", file_path)
         return False, None
 
-    print(f"[*] Decrypting: {file_path}")
-    print(
-        f"    Format: {data_format.value}, Key: {key_derivation.value}, Cipher: {cipher_mode.value}"
+    logger.info("Decrypting: %s", file_path)
+    logger.info(
+        "Format: %s, Key: %s, Cipher: %s",
+        data_format.value,
+        key_derivation.value,
+        cipher_mode.value,
     )
 
     try:
         with open(file_path, "rb") as f:
             data = f.read()
-        print(f"    [*] Input size: {len(data)} bytes")
+        logger.info("Input size: %d bytes", len(data))
 
         decrypted = decrypt_data(data, data_format, key_derivation, cipher_mode)
         return True, decrypted
 
     except Exception as e:
-        print(f"    [-] Error: {e}")
+        logger.error("Error: %s", e)
         return False, None
 
 

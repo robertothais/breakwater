@@ -52,13 +52,13 @@ build-webvm:
 build: build-dev build-runtime build-webvm
 
 # --- Run containers ---
-.PHONY: shell shell-dev shell-runtime shell-webvm
+.PHONY: shell shell-dev shell-runtime shell-webvm attach
 shell: shell-dev
 
 shell-dev:
 	@echo "[*] Starting interactive shell in dev container..."
 	mkdir -p specimen/logs specimen/cfg
-	$(PODMAN_CMD) run --rm -it --platform $(PLATFORM_DEV) -p 8080:8080 -p 27042:27042 \
+	$(PODMAN_CMD) run --rm -it --platform $(PLATFORM_DEV) --cap-add SYS_ADMIN -p 8080:8080 \
 		-v $(PWD):/workspace \
 		-v $(PWD)/specimen/Logs:/opt/AhnLab/ASTx/Logs \
 		-v $(PWD)/specimen/cfg:/opt/AhnLab/ASTx/cfg \
@@ -66,13 +66,24 @@ shell-dev:
 		-v $(PWD)/tools:/tmp/webroot/astx/policy:ro \
 		$(DEV_IMAGE)
 
+attach:
+	@echo "[*] Attaching to running dev container..."
+	@CONTAINER_ID=$$($(PODMAN_CMD) ps -q --filter "ancestor=$(DEV_IMAGE)" | head -1); \
+	if [ -z "$$CONTAINER_ID" ]; then \
+		echo "[-] No running $(DEV_IMAGE) container found. Start one with 'make shell-dev' first."; \
+		exit 1; \
+	else \
+		echo "[+] Attaching to container $$CONTAINER_ID"; \
+		$(PODMAN_CMD) exec -it $$CONTAINER_ID zsh; \
+	fi
+
 shell-runtime:
 	@echo "[*] Starting interactive shell in runtime container..."
 	$(PODMAN_CMD) run --rm -it --platform $(PLATFORM_DEV) --entrypoint='["/bin/bash"]' $(RUNTIME_IMAGE)
 
 shell-webvm:
 	@echo "[*] Starting interactive shell in webvm container as user..."
-	$(PODMAN_CMD) run --rm -it --platform $(PLATFORM_WEBVM) --user user $(WEBVM_IMAGE)
+	$(PODMAN_CMD) run --rm -it --platform $(PLATFORM_WEBVM) --network none --user user $(WEBVM_IMAGE)
 
 # --- Static analysis ---
 .PHONY: analyze

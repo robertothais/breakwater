@@ -47,8 +47,7 @@ export const updateRedirectRules = async (modeManager: ModeManager) => {
           action: {
             type: "redirect",
             redirect: {
-              regexSubstitution:
-                `${WEBVM_CONFIG.PROXY_URL}?endpoint=\\1&params=\\2`,
+              regexSubstitution: `${WEBVM_CONFIG.PROXY_URL}?endpoint=\\1&params=\\2`,
             },
           },
           condition: {
