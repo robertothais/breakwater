@@ -1,6 +1,5 @@
 astx:
   name: "AhnLab Safe Transaction"
-  description: "Korean banking security software"
   linux_i386:
     url: "https://safetx.ahnlab.com/master/linux/astx_u32.deb"
   linux_x64:
