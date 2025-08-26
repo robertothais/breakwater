@@ -10,9 +10,14 @@ __pycache__/
 catalog/*
 !catalog/.gitkeep
 
+# Target assets
+targets/*/downloads/
+targets/*/unpacked/
+targets/*/current
+
 # Node
 node_modules/
 
 # Personal
 NOTES
-screenshots
+screenshots/

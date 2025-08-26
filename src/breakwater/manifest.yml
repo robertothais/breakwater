@@ -8,3 +8,9 @@ astx:
     url: "https://safetx.ahnlab.com/master/mac/astx.dmg"
   windows:
     url: "https://safetx.ahnlab.com/master/win/default/all/astx_setup.exe"
+nos:
+  name: "nProtect Online Security"
+  linux_i386:
+    url: https://supdate.nprotect.net/nprotect/nos_service/linux/setup/nprotect-online-security-1.0-1.x86.deb
+  linux_x64:
+    url: https://supdate.nprotect.net/nprotect/nos_service/linux/setup/nprotect-online-security-1.0-1.x64.deb

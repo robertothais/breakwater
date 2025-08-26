@@ -59,9 +59,10 @@ PACKAGE_CANONICAL_MAPPING: dict[str, str] = {
     "keysharp biz": "KeySharp",
     "magicline": "MagicLine",
     "magicline4nx": "MagicLine",
+    "i3gsvcmanager": "IPInside",
     "isasservice": "iSAS Service",
     "isasservice_v2.6.5": "iSAS Service",
-    # INISAFE suite (INISafeMail is separate)
+    # INISAFE suite
     "inisafecrossweb": "INISAFE CrossWeb EX",
     "inisafecrosswebex": "INISAFE CrossWeb EX",
     "inis_ex": "INISAFE CrossWeb EX",

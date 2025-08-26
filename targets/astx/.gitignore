@@ -3,15 +3,5 @@
 # Analysis files
 analysis/
 
-# Package downloads
-downloads/
-
-# Extracted package contents
-unpacked/
-current
-
-# Analysis results
-analysis/
-
 # Specimens
 specimen/
