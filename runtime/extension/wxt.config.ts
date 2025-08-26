@@ -6,12 +6,7 @@ export default defineConfig({
   manifest: {
     name: "ASTx Bridge",
     description: "Bridge extension for Korean banking security software (ASTx)",
-    permissions: [
-      "declarativeNetRequest",
-      "declarativeNetRequestFeedback",
-      "webNavigation",
-      "storage",
-    ],
+    permissions: ["declarativeNetRequest", "webNavigation", "storage"],
     host_permissions: [
       "*://lx.astxsvc.com/*",
       "http://localhost:8080/*",

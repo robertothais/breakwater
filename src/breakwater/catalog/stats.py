@@ -91,7 +91,6 @@ def analyze_software_associations(
         frequent_itemsets,
         metric="jaccard",
         min_threshold=min_jaccard,
-        num_itemsets=len(frequent_itemsets),
     )
 
     # Generate Kulczynski associations for alternative symmetric metric
@@ -99,7 +98,6 @@ def analyze_software_associations(
         frequent_itemsets,
         metric="kulczynski",
         min_threshold=0.5,
-        num_itemsets=len(frequent_itemsets),
     )
 
     return frequent_itemsets, jaccard_rules, kulc_rules
@@ -127,7 +125,7 @@ def identify_software_stacks(
                         list(itemset), key=str.lower
                     ),  # Sort alphabetically, case-insensitive
                     "support": support,
-                    "services_count": int(support * total_services),
+                    "services_count": round(support * total_services),
                 }
             )
 
@@ -261,5 +259,4 @@ def analyze_software_distribution(software_usage: Counter[str]) -> dict[str, int
         "used_2_to_5": used_2_to_5,
         "used_more_than_5": used_more_than_5,
     }
-
 

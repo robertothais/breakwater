@@ -1,0 +1,1094 @@
+{
+  "nodes": [
+    {
+      "id": "Veraport",
+      "label": "Veraport",
+      "usage_count": 136,
+      "support": 0.5151515151515151
+    },
+    {
+      "id": "AnySign",
+      "label": "AnySign",
+      "usage_count": 38,
+      "support": 0.14393939393939395
+    },
+    {
+      "id": "AhnLab Safe Transaction",
+      "label": "AhnLab Safe Transaction",
+      "usage_count": 73,
+      "support": 0.2765151515151515
+    },
+    {
+      "id": "nProtect Online Security",
+      "label": "nProtect Online Security",
+      "usage_count": 137,
+      "support": 0.5189393939393939
+    },
+    {
+      "id": "IPInside",
+      "label": "IPInside",
+      "usage_count": 37,
+      "support": 0.14015151515151514
+    },
+    {
+      "id": "WizIn-Delfino",
+      "label": "WizIn-Delfino",
+      "usage_count": 42,
+      "support": 0.1590909090909091
+    },
+    {
+      "id": "TouchEn",
+      "label": "TouchEn",
+      "usage_count": 49,
+      "support": 0.1856060606060606
+    },
+    {
+      "id": "SCWSSP",
+      "label": "SCWSSP",
+      "usage_count": 3,
+      "support": 0.011363636363636364
+    },
+    {
+      "id": "INISAFE CrossWeb EX",
+      "label": "INISAFE CrossWeb EX",
+      "usage_count": 17,
+      "support": 0.06439393939393939
+    },
+    {
+      "id": "Printmade",
+      "label": "Printmade",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "APS Engine",
+      "label": "APS Engine",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "SmartManagerEx",
+      "label": "SmartManagerEx",
+      "usage_count": 3,
+      "support": 0.011363636363636364
+    },
+    {
+      "id": "VCPP2008_Redist_x86",
+      "label": "VCPP2008_Redist_x86",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "MoaSign",
+      "label": "MoaSign",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "KSCertRelay",
+      "label": "KSCertRelay",
+      "usage_count": 17,
+      "support": 0.06439393939393939
+    },
+    {
+      "id": "ePageSafer",
+      "label": "ePageSafer",
+      "usage_count": 18,
+      "support": 0.06818181818181818
+    },
+    {
+      "id": "KISSCAP",
+      "label": "KISSCAP",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "CertTool",
+      "label": "CertTool",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "BusanPFMS",
+      "label": "BusanPFMS",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "TDClient",
+      "label": "TDClient",
+      "usage_count": 5,
+      "support": 0.01893939393939394
+    },
+    {
+      "id": "UniquePC",
+      "label": "UniquePC",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "MaWebDRM",
+      "label": "MaWebDRM",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "SecureWeb",
+      "label": "SecureWeb",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "CertShare",
+      "label": "CertShare",
+      "usage_count": 3,
+      "support": 0.011363636363636364
+    },
+    {
+      "id": "iSAS Service",
+      "label": "iSAS Service",
+      "usage_count": 5,
+      "support": 0.01893939393939394
+    },
+    {
+      "id": "WGear_Setup_SHBCIB_Prod_v1.100.1.0412_20220412_AnyCPU",
+      "label": "WGear_Setup_SHBCIB_Prod_v1.100.1.0412_20220412_AnyCPU",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "FSWSSSetup",
+      "label": "FSWSSSetup",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "ASSetup",
+      "label": "ASSetup",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "ebz_MAWS_DaeguBankRex_Setup",
+      "label": "ebz_MAWS_DaeguBankRex_Setup",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "SignKoreaCert",
+      "label": "SignKoreaCert",
+      "usage_count": 94,
+      "support": 0.3560606060606061
+    },
+    {
+      "id": "RealIp",
+      "label": "RealIp",
+      "usage_count": 4,
+      "support": 0.015151515151515152
+    },
+    {
+      "id": "UniSign",
+      "label": "UniSign",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "INISAFE",
+      "label": "INISAFE",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "XecureWeb",
+      "label": "XecureWeb",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WebCryptX",
+      "label": "WebCryptX",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "KeySharp",
+      "label": "KeySharp",
+      "usage_count": 7,
+      "support": 0.026515151515151516
+    },
+    {
+      "id": "DAmoWebCrypto",
+      "label": "DAmoWebCrypto",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "KOS",
+      "label": "KOS",
+      "usage_count": 8,
+      "support": 0.030303030303030304
+    },
+    {
+      "id": "WebPri20",
+      "label": "WebPri20",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "MarkAny",
+      "label": "MarkAny",
+      "usage_count": 4,
+      "support": 0.015151515151515152
+    },
+    {
+      "id": "SetupNx",
+      "label": "SetupNx",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "INISafeMail",
+      "label": "INISafeMail",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "FDSDetector",
+      "label": "FDSDetector",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "MagicLine",
+      "label": "MagicLine",
+      "usage_count": 5,
+      "support": 0.01893939393939394
+    },
+    {
+      "id": "PrintManager",
+      "label": "PrintManager",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "VestCert",
+      "label": "VestCert",
+      "usage_count": 4,
+      "support": 0.015151515151515152
+    },
+    {
+      "id": "CX60",
+      "label": "CX60",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "InnoGmp",
+      "label": "InnoGmp",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "KCaseAgent",
+      "label": "KCaseAgent",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "KSignCASE",
+      "label": "KSignCASE",
+      "usage_count": 3,
+      "support": 0.011363636363636364
+    },
+    {
+      "id": "NXiSAS",
+      "label": "NXiSAS",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "UbiViewer",
+      "label": "UbiViewer",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "EnableTrustedSite",
+      "label": "EnableTrustedSite",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "InstallSafer",
+      "label": "InstallSafer",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "INNORIX",
+      "label": "INNORIX",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "Papyrus",
+      "label": "Papyrus",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "Papyrus-PlugIn-web",
+      "label": "Papyrus-PlugIn-web",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "Papyrus-PlugIn-xfa",
+      "label": "Papyrus-PlugIn-xfa",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "BankpayEFT",
+      "label": "BankpayEFT",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "yessign5",
+      "label": "yessign5",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "DetectorX",
+      "label": "DetectorX",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "ezPDF",
+      "label": "ezPDF",
+      "usage_count": 3,
+      "support": 0.011363636363636364
+    },
+    {
+      "id": "HSMUSBDriver",
+      "label": "HSMUSBDriver",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "DocumentDetector",
+      "label": "DocumentDetector",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "MAGIC-PKI",
+      "label": "MAGIC-PKI",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "REXPERT",
+      "label": "REXPERT",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "KUPLOAD",
+      "label": "KUPLOAD",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "MAGIC-XML",
+      "label": "MAGIC-XML",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "ESAFER",
+      "label": "ESAFER",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "XPlatform",
+      "label": "XPlatform",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "NamoWecClient",
+      "label": "NamoWecClient",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "Rexpert",
+      "label": "Rexpert",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "EWS",
+      "label": "EWS",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "MWSW",
+      "label": "MWSW",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "ClientSetup",
+      "label": "ClientSetup",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "SecuKitNXS",
+      "label": "SecuKitNXS",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "wLogenLauncher",
+      "label": "wLogenLauncher",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "iLogen",
+      "label": "iLogen",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "MobiSign",
+      "label": "MobiSign",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "CrossWarpEX",
+      "label": "CrossWarpEX",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "Crosscert",
+      "label": "Crosscert",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WehagoAgent",
+      "label": "WehagoAgent",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WehagoSetup",
+      "label": "WehagoSetup",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WehagoRemoteApp",
+      "label": "WehagoRemoteApp",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WehagoPrintInstaller",
+      "label": "WehagoPrintInstaller",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WehagoScrappingInstaller",
+      "label": "WehagoScrappingInstaller",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "NxtSpkiSetup",
+      "label": "NxtSpkiSetup",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WehagoNTSInstaller",
+      "label": "WehagoNTSInstaller",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WehagoFaxSetup",
+      "label": "WehagoFaxSetup",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "WehagoYeTaxSetup",
+      "label": "WehagoYeTaxSetup",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "ICT_REPORTX",
+      "label": "ICT_REPORTX",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "WebCubeAgent",
+      "label": "WebCubeAgent",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "ViewerApp",
+      "label": "ViewerApp",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "OZReportLauncher",
+      "label": "OZReportLauncher",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "OZReportPrinter",
+      "label": "OZReportPrinter",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "OZWebLauncher",
+      "label": "OZWebLauncher",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "iCertPrintClient",
+      "label": "iCertPrintClient",
+      "usage_count": 2,
+      "support": 0.007575757575757576
+    },
+    {
+      "id": "SecuwaySSLSUV1.0",
+      "label": "SecuwaySSLSUV1.0",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    },
+    {
+      "id": "TPLSvc",
+      "label": "TPLSvc",
+      "usage_count": 1,
+      "support": 0.003787878787878788
+    }
+  ],
+  "edges": [
+    {
+      "id": "AhnLab Safe Transaction|nProtect Online Security",
+      "source": "AhnLab Safe Transaction",
+      "target": "nProtect Online Security",
+      "relationship": "competitive",
+      "lift": 0.2903709629037097,
+      "jaccard": 0.05527638190954774,
+      "qvalue": 3.974674578613373e-12,
+      "a": 11,
+      "k_itemsets": 5,
+      "max_itemset_support": 0.041666666666666664,
+      "evidence_score": 4.4113748529169206
+    },
+    {
+      "id": "SignKoreaCert|nProtect Online Security",
+      "source": "SignKoreaCert",
+      "target": "nProtect Online Security",
+      "relationship": "complementary",
+      "lift": 1.5580059015375058,
+      "jaccard": 0.49032258064516127,
+      "qvalue": 6.795627363289016e-11,
+      "a": 76,
+      "k_itemsets": 4,
+      "max_itemset_support": 0.2878787878787879,
+      "evidence_score": 4.234929280689305
+    },
+    {
+      "id": "SignKoreaCert|Veraport",
+      "source": "SignKoreaCert",
+      "target": "Veraport",
+      "relationship": "complementary",
+      "lift": 1.4868585732165205,
+      "jaccard": 0.45569620253164556,
+      "qvalue": 3.4147466048887616e-08,
+      "a": 72,
+      "k_itemsets": 4,
+      "max_itemset_support": 0.2727272727272727,
+      "evidence_score": 3.307024710377091
+    },
+    {
+      "id": "INNORIX|ezPDF",
+      "source": "INNORIX",
+      "target": "ezPDF",
+      "relationship": "complementary",
+      "lift": 88.0,
+      "jaccard": 0.6666666666666666,
+      "qvalue": 0.0007785785591197201,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 3.189376392968691
+    },
+    {
+      "id": "INNORIX|MarkAny",
+      "source": "INNORIX",
+      "target": "MarkAny",
+      "relationship": "complementary",
+      "lift": 66.0,
+      "jaccard": 0.5,
+      "qvalue": 0.001232860928678419,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 2.9844933433469634
+    },
+    {
+      "id": "TouchEn|nProtect Online Security",
+      "source": "TouchEn",
+      "target": "nProtect Online Security",
+      "relationship": "competitive",
+      "lift": 0.3146134366155221,
+      "jaccard": 0.0449438202247191,
+      "qvalue": 6.22320401548644e-07,
+      "a": 8,
+      "k_itemsets": 7,
+      "max_itemset_support": 0.030303030303030304,
+      "evidence_score": 2.7719101777586044
+    },
+    {
+      "id": "Veraport|WizIn-Delfino",
+      "source": "Veraport",
+      "target": "WizIn-Delfino",
+      "relationship": "complementary",
+      "lift": 1.6176470588235294,
+      "jaccard": 0.24475524475524477,
+      "qvalue": 0.00010027989577418259,
+      "a": 35,
+      "k_itemsets": 23,
+      "max_itemset_support": 0.13257575757575757,
+      "evidence_score": 2.6677708620983935
+    },
+    {
+      "id": "MarkAny|ezPDF",
+      "source": "MarkAny",
+      "target": "ezPDF",
+      "relationship": "complementary",
+      "lift": 44.0,
+      "jaccard": 0.4,
+      "qvalue": 0.0030664670681505215,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 2.657597771209085
+    },
+    {
+      "id": "AhnLab Safe Transaction|INISAFE CrossWeb EX",
+      "source": "AhnLab Safe Transaction",
+      "target": "INISAFE CrossWeb EX",
+      "relationship": "complementary",
+      "lift": 2.765511684125705,
+      "jaccard": 0.16883116883116883,
+      "qvalue": 0.0002785737476281677,
+      "a": 13,
+      "k_itemsets": 14,
+      "max_itemset_support": 0.04924242424242424,
+      "evidence_score": 2.5932996253192093
+    },
+    {
+      "id": "Veraport|nProtect Online Security",
+      "source": "Veraport",
+      "target": "nProtect Online Security",
+      "relationship": "complementary",
+      "lift": 1.2752254186346073,
+      "jaccard": 0.4918032786885246,
+      "qvalue": 4.32671287520248e-05,
+      "a": 90,
+      "k_itemsets": 14,
+      "max_itemset_support": 0.3409090909090909,
+      "evidence_score": 2.587851169176698
+    },
+    {
+      "id": "INISAFE CrossWeb EX|IPInside",
+      "source": "INISAFE CrossWeb EX",
+      "target": "IPInside",
+      "relationship": "complementary",
+      "lift": 3.7774244833068367,
+      "jaccard": 0.2,
+      "qvalue": 0.0007785785591197201,
+      "a": 9,
+      "k_itemsets": 12,
+      "max_itemset_support": 0.03409090909090909,
+      "evidence_score": 2.5417135802475666
+    },
+    {
+      "id": "WizIn-Delfino|ePageSafer",
+      "source": "WizIn-Delfino",
+      "target": "ePageSafer",
+      "relationship": "complementary",
+      "lift": 3.4920634920634925,
+      "jaccard": 0.2,
+      "qvalue": 0.0006766320681569078,
+      "a": 10,
+      "k_itemsets": 12,
+      "max_itemset_support": 0.03787878787878788,
+      "evidence_score": 2.5255184528548873
+    },
+    {
+      "id": "IPInside|TouchEn",
+      "source": "IPInside",
+      "target": "TouchEn",
+      "relationship": "complementary",
+      "lift": 2.329840044125759,
+      "jaccard": 0.22857142857142856,
+      "qvalue": 0.0011542332359840808,
+      "a": 16,
+      "k_itemsets": 19,
+      "max_itemset_support": 0.06060606060606061,
+      "evidence_score": 2.404758556057661
+    },
+    {
+      "id": "AhnLab Safe Transaction|KSCertRelay",
+      "source": "AhnLab Safe Transaction",
+      "target": "KSCertRelay",
+      "relationship": "complementary",
+      "lift": 2.552780016116036,
+      "jaccard": 0.15384615384615385,
+      "qvalue": 0.001232860928678419,
+      "a": 12,
+      "k_itemsets": 16,
+      "max_itemset_support": 0.045454545454545456,
+      "evidence_score": 2.37994100671415
+    },
+    {
+      "id": "AhnLab Safe Transaction|ePageSafer",
+      "source": "AhnLab Safe Transaction",
+      "target": "ePageSafer",
+      "relationship": "complementary",
+      "lift": 2.611872146118722,
+      "jaccard": 0.16666666666666666,
+      "qvalue": 0.0006766320681569078,
+      "a": 13,
+      "k_itemsets": 11,
+      "max_itemset_support": 0.04924242424242424,
+      "evidence_score": 2.362960258135745
+    },
+    {
+      "id": "KSCertRelay|ePageSafer",
+      "source": "KSCertRelay",
+      "target": "ePageSafer",
+      "relationship": "complementary",
+      "lift": 5.176470588235295,
+      "jaccard": 0.20689655172413793,
+      "qvalue": 0.002069635092953282,
+      "a": 6,
+      "k_itemsets": 6,
+      "max_itemset_support": 0.022727272727272728,
+      "evidence_score": 2.3415708064850294
+    },
+    {
+      "id": "IPInside|SCWSSP",
+      "source": "IPInside",
+      "target": "SCWSSP",
+      "relationship": "complementary",
+      "lift": 7.135135135135136,
+      "jaccard": 0.08108108108108109,
+      "qvalue": 0.01168707153509717,
+      "a": 3,
+      "k_itemsets": 8,
+      "max_itemset_support": 0.011363636363636364,
+      "evidence_score": 2.3252744217063914
+    },
+    {
+      "id": "INISAFE CrossWeb EX|KSCertRelay",
+      "source": "INISAFE CrossWeb EX",
+      "target": "KSCertRelay",
+      "relationship": "complementary",
+      "lift": 4.567474048442906,
+      "jaccard": 0.1724137931034483,
+      "qvalue": 0.011223357701594674,
+      "a": 5,
+      "k_itemsets": 12,
+      "max_itemset_support": 0.01893939393939394,
+      "evidence_score": 2.2417208261774317
+    },
+    {
+      "id": "SCWSSP|WizIn-Delfino",
+      "source": "SCWSSP",
+      "target": "WizIn-Delfino",
+      "relationship": "complementary",
+      "lift": 6.285714285714286,
+      "jaccard": 0.07142857142857142,
+      "qvalue": 0.013900680397442085,
+      "a": 3,
+      "k_itemsets": 8,
+      "max_itemset_support": 0.011363636363636364,
+      "evidence_score": 2.2392096173556615
+    },
+    {
+      "id": "IPInside|KSCertRelay",
+      "source": "IPInside",
+      "target": "KSCertRelay",
+      "relationship": "complementary",
+      "lift": 3.3577106518282993,
+      "jaccard": 0.17391304347826086,
+      "qvalue": 0.0036446901308690854,
+      "a": 8,
+      "k_itemsets": 10,
+      "max_itemset_support": 0.030303030303030304,
+      "evidence_score": 2.2046718682616895
+    },
+    {
+      "id": "INISAFE CrossWeb EX|TouchEn",
+      "source": "INISAFE CrossWeb EX",
+      "target": "TouchEn",
+      "relationship": "complementary",
+      "lift": 2.8523409363745493,
+      "jaccard": 0.15789473684210525,
+      "qvalue": 0.0049955894416767255,
+      "a": 9,
+      "k_itemsets": 12,
+      "max_itemset_support": 0.03409090909090909,
+      "evidence_score": 2.1375333209820946
+    },
+    {
+      "id": "SCWSSP|TouchEn",
+      "source": "SCWSSP",
+      "target": "TouchEn",
+      "relationship": "complementary",
+      "lift": 5.387755102040816,
+      "jaccard": 0.061224489795918366,
+      "qvalue": 0.018577614299322132,
+      "a": 3,
+      "k_itemsets": 8,
+      "max_itemset_support": 0.011363636363636364,
+      "evidence_score": 2.1230941823158944
+    },
+    {
+      "id": "AhnLab Safe Transaction|WizIn-Delfino",
+      "source": "AhnLab Safe Transaction",
+      "target": "WizIn-Delfino",
+      "relationship": "complementary",
+      "lift": 1.894324853228963,
+      "jaccard": 0.23655913978494625,
+      "qvalue": 0.0016526972710392853,
+      "a": 22,
+      "k_itemsets": 12,
+      "max_itemset_support": 0.08333333333333333,
+      "evidence_score": 2.1172577123841356
+    },
+    {
+      "id": "SignKoreaCert|TouchEn",
+      "source": "SignKoreaCert",
+      "target": "TouchEn",
+      "relationship": "competitive",
+      "lift": 0.17194963091619625,
+      "jaccard": 0.02142857142857143,
+      "qvalue": 6.283179341428635e-06,
+      "a": 3,
+      "k_itemsets": 1,
+      "max_itemset_support": 0.011363636363636364,
+      "evidence_score": 1.9687771203063484
+    },
+    {
+      "id": "INISAFE CrossWeb EX|Printmade",
+      "source": "INISAFE CrossWeb EX",
+      "target": "Printmade",
+      "relationship": "complementary",
+      "lift": 15.529411764705884,
+      "jaccard": 0.11764705882352941,
+      "qvalue": 0.013900680397442085,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 1.9379650732985165
+    },
+    {
+      "id": "BusanPFMS|INISAFE CrossWeb EX",
+      "source": "BusanPFMS",
+      "target": "INISAFE CrossWeb EX",
+      "relationship": "complementary",
+      "lift": 15.529411764705884,
+      "jaccard": 0.11764705882352941,
+      "qvalue": 0.013900680397442085,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 1.9379650732985165
+    },
+    {
+      "id": "BusanPFMS|KSCertRelay",
+      "source": "BusanPFMS",
+      "target": "KSCertRelay",
+      "relationship": "complementary",
+      "lift": 15.529411764705884,
+      "jaccard": 0.11764705882352941,
+      "qvalue": 0.013900680397442085,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 1.9379650732985165
+    },
+    {
+      "id": "KISSCAP|ePageSafer",
+      "source": "KISSCAP",
+      "target": "ePageSafer",
+      "relationship": "complementary",
+      "lift": 14.666666666666666,
+      "jaccard": 0.1111111111111111,
+      "qvalue": 0.014736540788109227,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 1.9020245224762824
+    },
+    {
+      "id": "TouchEn|WizIn-Delfino",
+      "source": "TouchEn",
+      "target": "WizIn-Delfino",
+      "relationship": "complementary",
+      "lift": 1.9241982507288629,
+      "jaccard": 0.19736842105263158,
+      "qvalue": 0.013900680397442085,
+      "a": 15,
+      "k_itemsets": 16,
+      "max_itemset_support": 0.056818181818181816,
+      "evidence_score": 1.8970843052449455
+    },
+    {
+      "id": "AhnLab Safe Transaction|IPInside",
+      "source": "AhnLab Safe Transaction",
+      "target": "IPInside",
+      "relationship": "complementary",
+      "lift": 1.7593483894853759,
+      "jaccard": 0.1956521739130435,
+      "qvalue": 0.014844557539557728,
+      "a": 18,
+      "k_itemsets": 17,
+      "max_itemset_support": 0.06818181818181818,
+      "evidence_score": 1.8673425049767642
+    },
+    {
+      "id": "AnySign|CertShare",
+      "source": "AnySign",
+      "target": "CertShare",
+      "relationship": "complementary",
+      "lift": 6.947368421052631,
+      "jaccard": 0.07894736842105263,
+      "qvalue": 0.01168707153509717,
+      "a": 3,
+      "k_itemsets": 1,
+      "max_itemset_support": 0.011363636363636364,
+      "evidence_score": 1.8110905735094214
+    },
+    {
+      "id": "IPInside|WizIn-Delfino",
+      "source": "IPInside",
+      "target": "WizIn-Delfino",
+      "relationship": "complementary",
+      "lift": 2.038610038610039,
+      "jaccard": 0.1791044776119403,
+      "qvalue": 0.01891650117657167,
+      "a": 12,
+      "k_itemsets": 12,
+      "max_itemset_support": 0.045454545454545456,
+      "evidence_score": 1.7870496409433734
+    },
+    {
+      "id": "KSCertRelay|SmartManagerEx",
+      "source": "KSCertRelay",
+      "target": "SmartManagerEx",
+      "relationship": "complementary",
+      "lift": 10.352941176470589,
+      "jaccard": 0.1111111111111111,
+      "qvalue": 0.03268976409196419,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 1.6191856636375574
+    },
+    {
+      "id": "AnySign|TouchEn",
+      "source": "AnySign",
+      "target": "TouchEn",
+      "relationship": "complementary",
+      "lift": 1.843179377013963,
+      "jaccard": 0.17567567567567569,
+      "qvalue": 0.03410927856923376,
+      "a": 13,
+      "k_itemsets": 4,
+      "max_itemset_support": 0.04924242424242424,
+      "evidence_score": 1.336001427563209
+    },
+    {
+      "id": "AnySign|Veraport",
+      "source": "AnySign",
+      "target": "Veraport",
+      "relationship": "competitive",
+      "lift": 0.5619195046439628,
+      "jaccard": 0.06748466257668712,
+      "qvalue": 0.01168707153509717,
+      "a": 11,
+      "k_itemsets": 6,
+      "max_itemset_support": 0.041666666666666664,
+      "evidence_score": 1.3066237044705984
+    },
+    {
+      "id": "IPInside|SignKoreaCert",
+      "source": "IPInside",
+      "target": "SignKoreaCert",
+      "relationship": "competitive",
+      "lift": 0.37952846463484763,
+      "jaccard": 0.03968253968253968,
+      "qvalue": 0.01168707153509717,
+      "a": 5,
+      "k_itemsets": 2,
+      "max_itemset_support": 0.01893939393939394,
+      "evidence_score": 1.0166153267657732
+    },
+    {
+      "id": "KSCertRelay|nProtect Online Security",
+      "source": "KSCertRelay",
+      "target": "nProtect Online Security",
+      "relationship": "competitive",
+      "lift": 0.3400601116358953,
+      "jaccard": 0.019867549668874173,
+      "qvalue": 0.014844557539557728,
+      "a": 3,
+      "k_itemsets": 1,
+      "max_itemset_support": 0.011363636363636364,
+      "evidence_score": 0.8443145198280307
+    },
+    {
+      "id": "INISAFE CrossWeb EX|nProtect Online Security",
+      "source": "INISAFE CrossWeb EX",
+      "target": "nProtect Online Security",
+      "relationship": "competitive",
+      "lift": 0.22670674109059685,
+      "jaccard": 0.013157894736842105,
+      "qvalue": 0.0036446901308690854,
+      "a": 2,
+      "k_itemsets": 0,
+      "max_itemset_support": 0.0,
+      "evidence_score": 0.8127797964015012
+    }
+  ]
+}

@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Breakwater Package Explorer</title>
+    <style>
+      html,
+      body {
+        height: 100%;
+        margin: 0;
+        font-family: system-ui, sans-serif;
+      }
+      #toolbar {
+        display: flex;
+        gap: 12px;
+        padding: 8px 12px;
+        border-bottom: 1px solid #ddd;
+        align-items: center;
+      }
+      #container {
+        height: calc(100% - 48px);
+      }
+      .metric {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .metric input {
+        width: 140px;
+      }
+      .badge {
+        padding: 2px 6px;
+        border-radius: 4px;
+        background: #eee;
+      }
+    </style>
+    <!-- Switch to ES modules for reliable CDN paths -->
+  </head>
+  <body>
+    <div id="toolbar">
+      <div class="metric">
+        <label>q ≤</label>
+        <input
+          id="qmax"
+          type="range"
+          min="0"
+          max="1.0"
+          step="0.01"
+          value="0.2"
+        />
+        <span id="qmax-val" class="badge">0.20</span>
+      </div>
+      <div class="metric">
+        <label>min joint ≥</label>
+        <input id="minjoint" type="range" min="0" max="10" step="1" value="2" />
+        <span id="minjoint-val" class="badge">2</span>
+      </div>
+      <div class="metric">
+        <label>edges ≤</label>
+        <input
+          id="maxedges"
+          type="range"
+          min="1"
+          max="5000"
+          step="1"
+          value="2000"
+        />
+        <span id="maxedges-val" class="badge">2000</span>
+      </div>
+      <label
+        ><input type="checkbox" id="show-comp" checked /> complementary</label
+      >
+      <label
+        ><input type="checkbox" id="show-compete" checked /> competitive</label
+      >
+      <button id="relayout" title="Re-run layout">Re-layout</button>
+      <input id="search" type="search" placeholder="Search package..." />
+    </div>
+    <div id="container"></div>
+    <script type="module" src="app.mjs"></script>
+  </body>
+</html>

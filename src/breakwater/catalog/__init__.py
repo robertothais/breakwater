@@ -3,9 +3,11 @@
 import typer
 from rich.console import Console
 from sqlalchemy import func
+from sqlalchemy.orm import selectinload
 
-from .core import IESite, Package, Service, catalog_session
+from .core import IESite, Package, Service, ServicePackageUrl, catalog_session
 from .deduplication import get_canonical_name
+from .exporter import export_graph, write_graph_json
 from .stats import (
     analyze_software_associations,
     analyze_software_distribution,
@@ -94,21 +96,71 @@ def stats(
 
         # Market basket analysis
         if market_basket:
-            try:
-                frequent_itemsets, jaccard_rules, kulc_rules = analyze_software_associations(
+            frequent_itemsets, jaccard_rules, kulc_rules = (
+                analyze_software_associations(
                     services, min_support=0.01, min_jaccard=0.1
                 )
-                if not frequent_itemsets.empty and not jaccard_rules.empty:
-                    display_market_basket_analysis(frequent_itemsets, jaccard_rules, kulc_rules, total_services, services, console)
-                else:
-                    console.print(
-                        "\nNo significant associations found with current parameters."
-                    )
-            except ImportError:
-                console.print(
-                    "\n[red]Market basket analysis requires pandas and mlxtend.[/red]"
+            )
+            if not frequent_itemsets.empty and not jaccard_rules.empty:
+                display_market_basket_analysis(
+                    frequent_itemsets,
+                    jaccard_rules,
+                    kulc_rules,
+                    total_services,
+                    services,
+                    console,
                 )
-                console.print("Install with: pip install pandas mlxtend")
+            else:
+                console.print(
+                    "\nNo significant associations found with current parameters."
+                )
+
+
+@app.command("export-graph")
+def export_graph_command(
+    out: str = typer.Option(
+        "research/explorer/data/graph.json",
+        "--out",
+        help="Output path for Sigma.js graph JSON",
+    ),
+    top_n: int = typer.Option(
+        60, help="Top-N packages by usage to include in pair metrics"
+    ),
+    min_joint: int = typer.Option(2, help="Minimum joint count for edges"),
+    qmax: float = typer.Option(0.05, help="Max q-value for significance filtering"),
+    min_support: float = typer.Option(0.01, help="Min support for frequent itemsets"),
+    min_jaccard: float = typer.Option(0.1, help="Min Jaccard for association rules"),
+    max_edges: int = typer.Option(2000, help="Maximum number of edges in output"),
+    relationships: list[str] = typer.Option(
+        ["complementary", "competitive"],
+        help="Which edge relationship types to include",
+    ),
+):
+    """Export a Sigma.js graph JSON of package relationships under research/explorer/."""
+    console = Console()
+
+    with catalog_session() as session:
+        services: list[Service] = (
+            session.query(Service)
+            .options(
+                selectinload(Service.packages).selectinload(ServicePackageUrl.package)
+            )
+            .all()
+        )
+
+    graph = export_graph(
+        services,
+        top_n=top_n,
+        min_joint_count=min_joint,
+        min_support=min_support,
+        min_jaccard=min_jaccard,
+        q_max=qmax,
+        relationships=set(relationships),
+        max_edges=max_edges,
+    )
+
+    write_graph_json(graph, out)
+    console.print(f"Wrote graph JSON to [green]{out}[/green]")
 
 
 @app.command()
@@ -143,3 +195,65 @@ def search(query: str):
                             typer.echo(f"    - {assoc.package.name}")
         else:
             typer.echo(f"No services found matching '{query}'")
+
+
+@app.command("open-explorer")
+def open_explorer(
+    root: str = typer.Option(
+        "research/explorer",
+        "--root",
+        help="Path to the Sigma.js explorer directory",
+    ),
+    port: int = typer.Option(8008, "--port", help="Port to serve the explorer"),
+    open_browser: bool = typer.Option(
+        True, "--open/--no-open", help="Open the default web browser"
+    ),
+):
+    """Serve and open the interactive explorer (Sigma.js)."""
+    import os
+    import threading
+    import webbrowser
+    from http.server import SimpleHTTPRequestHandler
+    from pathlib import Path
+    from socketserver import TCPServer
+
+    console = Console()
+    root_path = Path(root).resolve()
+    if not root_path.exists():
+        raise typer.BadParameter(f"Explorer root not found: {root_path}")
+
+    # Change working directory so static server serves the explorer
+    os.chdir(root_path)
+
+    # Try to bind the requested port; if unavailable, raise a clear error
+    try:
+
+        class QuietHandler(SimpleHTTPRequestHandler):
+            def log_message(self, format, *args):
+                pass
+
+        httpd = TCPServer(("127.0.0.1", port), QuietHandler)
+    except OSError as e:
+        raise typer.Exit(code=1) from e
+
+    url = f"http://127.0.0.1:{port}/"
+    console.print(f"Serving explorer from [green]{root_path}[/green] at {url}")
+    console.print("Press Ctrl+C to stop.")
+
+    # Serve in background thread
+    thread = threading.Thread(target=httpd.serve_forever, daemon=True)
+    thread.start()
+
+    if open_browser:
+        try:
+            webbrowser.open(url)
+        except Exception:
+            pass
+
+    try:
+        thread.join()
+    except KeyboardInterrupt:
+        pass
+    finally:
+        httpd.shutdown()
+        httpd.server_close()

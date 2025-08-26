@@ -31,7 +31,7 @@ def create_software_usage_table(
     for software_name, count in sorted_software:
         filled_width = int((count / max_count) * 20)
         bar = "█" * filled_width + "░" * (20 - filled_width)
-        percentage = (count / total_services) * 100
+        percentage = (count / total_services * 100) if total_services else 0.0
         table.add_row(software_name, str(count), f"{bar} {percentage:.1f}%")
 
     return table
@@ -67,7 +67,7 @@ def create_category_table(
         display_category = category_mapping.get(category, category)
         filled_width = int((count / max_count) * 20)
         bar = "█" * filled_width + "░" * (20 - filled_width)
-        percentage = (count / total_services) * 100
+        percentage = (count / total_services * 100) if total_services else 0.0
         table.add_row(display_category, str(count), f"{bar} {percentage:.1f}%")
 
     return table
