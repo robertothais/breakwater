@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>ASTX Oracle Demo</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div x-data="oracle()">
+      <h1>ASTX Oracle Demo</h1>
+
+      <!-- Parameter Controls -->
+      <div class="controls">
+        <h3>Configuration</h3>
+        <label>
+          Algorithm:
+          <select x-model="config.alg">
+            <option value="0">alg=0 (plain)</option>
+            <option value="1">alg=1 (encrypted)</option>
+          </select>
+        </label>
+        <label x-show="config.alg == 1">
+          Encryption:
+          <select x-model="config.norsa">
+            <option value="0">RSA+AES</option>
+            <option value="1">AES only</option>
+          </select>
+        </label>
+        <label>
+          Server:
+          <input
+            x-model="config.server"
+            type="text"
+            placeholder="shinhanbank"
+          />
+        </label>
+        <br />
+        <button @click="run()" :disabled="loading">
+          <span x-show="!loading">Run Test</span>
+          <span x-show="loading">Loading...</span>
+        </button>
+      </div>
+
+      <!-- Results -->
+      <div id="results">
+        <div x-show="results.hello">
+          <h3>/hello Response</h3>
+          <pre x-text="JSON.stringify(results.hello, null, 2)"></pre>
+        </div>
+
+        <div x-show="results.pem">
+          <h3>Decoded client_public_key (PEM)</h3>
+          <pre x-text="results.pem"></pre>
+        </div>
+
+        <div x-show="results.setCert">
+          <h3>/set_cert Response</h3>
+          <pre x-text="JSON.stringify(results.setCert, null, 2)"></pre>
+        </div>
+
+        <div x-show="results.pclog">
+          <h3>/get_pclog Response</h3>
+          <pre x-text="JSON.stringify(results.pclog, null, 2)"></pre>
+        </div>
+
+        <div x-show="results.outerDecoded">
+          <h3>Decoded pclog_data (outer salt=8)</h3>
+          <pre x-text="results.outerDecoded"></pre>
+        </div>
+
+        <div x-show="results.decoded">
+          <h3>Decoded Data</h3>
+          <pre x-text="results.decodedText"></pre>
+        </div>
+
+        <div x-show="results.error" class="error">
+          <h3>Test Failed</h3>
+          <p x-text="results.error"></p>
+        </div>
+      </div>
+    </div>
+
+    <script type="module" src="./index.ts"></script>
+  </body>
+</html>

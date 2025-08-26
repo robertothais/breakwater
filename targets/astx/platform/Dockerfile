@@ -35,7 +35,6 @@ RUN dpkg --add-architecture i386 && \
   libstdc++6:i386 \
   libc6:i386
 
-
 # Copy the unpacked ASTx payload (assumes 'make unpack' has been run)
 COPY unpacked/rootfs/opt/AhnLab/ASTx/ /opt/AhnLab/ASTx/
 
@@ -60,7 +59,8 @@ RUN pip3 install sysv_ipc --break-system-packages
 RUN apt-get install -y --no-install-recommends \
   gcc-multilib \
   libc6-dev:i386 \
-  linux-libc-dev:i386
+  linux-libc-dev:i386 \
+  libc6-i386
 
 # Lulz
 RUN apt-get install -y  figlet lolcat && \
@@ -115,7 +115,7 @@ COPY --from=dev /usr/local/bin/ /usr/local/bin/
 
 RUN rm -rf /var/lib/apt/lists/*
 
-ENTRYPOINT ["/usr/local/bin/run-astx"]
+CMD ["/usr/local/bin/run-astx"]
 
 #############################################
 # 4) WebVM image                            #

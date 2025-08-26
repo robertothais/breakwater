@@ -4,7 +4,8 @@ ROOT_DIR := /workspace/..
 DEV_IMAGE := astx-dev
 RUNTIME_IMAGE := astx-runtime
 WEBVM_IMAGE := astx-webvm
-DEB_FILE := /workspace/packages/astx_u32.deb
+PACKAGE_PATH := /workspace/packages/astx_u32.deb
+DEB_FILE := $(PACKAGE_PATH)
 PAYLOAD_DIR := /workspace/unpacked/rootfs
 
 # Common build and run flags
@@ -21,14 +22,13 @@ PODMAN_CMD := podman $(if $(NATIVE),--connection lazarus)
 .PHONY: all
 all: build-dev
 
-# --- Payload unpack ---
-.PHONY: unpack
-unpack:
-	@echo "[*] Unpacking $(DEB_FILE) into $(PAYLOAD_DIR)..."
-	mkdir -p unpacked/rootfs unpacked/meta
-	$(PODMAN_CMD) run --rm -it --platform $(PLATFORM_DEV) -v $(PWD):/workspace debian:bookworm-slim \
-		sh -c "dpkg-deb -x /workspace/packages/astx_u32.deb /workspace/unpacked/rootfs && \
-		       dpkg-deb -e /workspace/packages/astx_u32.deb /workspace/unpacked/meta"
+# --- Package info ---
+.PHONY: version
+version:
+	@echo "[*] Getting package version..."
+	$(PODMAN_CMD) run --rm --platform $(PLATFORM_DEV) -v $(PWD):/workspace debian:bookworm-slim \
+		dpkg-deb -f $(PACKAGE_PATH) Version
+
 
 # --- Build containers ---
 .PHONY: build-dev
@@ -79,7 +79,7 @@ attach:
 
 shell-runtime:
 	@echo "[*] Starting interactive shell in runtime container..."
-	$(PODMAN_CMD) run --rm -it --platform $(PLATFORM_DEV) --entrypoint='["/bin/bash"]' $(RUNTIME_IMAGE)
+	$(PODMAN_CMD) run --rm -it --platform $(PLATFORM_DEV) $(RUNTIME_IMAGE) /bin/bash
 
 shell-webvm:
 	@echo "[*] Starting interactive shell in webvm container as user..."
@@ -136,4 +136,4 @@ extract:
 .PHONY: clean
 clean:
 	@echo "[*] Cleaning up build artifacts..."
-	rm -rf unpacked/ dist/ analysis/
+	rm -rf unpacked/

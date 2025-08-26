@@ -608,13 +608,13 @@ def custom_base64_decode(data: str, alphabet: str):
         return None
 
 
-def decode_rsa_key(encoded_key: str, key_type: str):
-    """Decode RSA key using the fully reverse-engineered algorithm"""
-    print(f"Decoding {key_type}...")
+def deobfuscate_pem_data(encoded_data: str, data_type: str):
+    """Deobfuscate PEM data (certificates, RSA keys) using XOR + custom base64 algorithm"""
+    print(f"Deobfuscating {data_type}...")
 
     # Step 1: Filter every 5th character and XOR with 4
     filtered = ""
-    for i, char in enumerate(encoded_key):
+    for i, char in enumerate(encoded_data):
         if i % 5 != 0:  # Skip positions 0,5,10,15...
             filtered += chr(ord(char) ^ 4)
     print(f"  After filter/XOR: {len(filtered)} chars")
@@ -637,7 +637,7 @@ def decode_rsa_key(encoded_key: str, key_type: str):
 
         # Return only if valid PEM
         if text.startswith("-----BEGIN"):
-            print(f"  [+] Successfully decoded {key_type}")
+            print(f"  [+] Successfully deobfuscated {data_type}")
             return text
         else:
             print("  Not valid PEM format")
@@ -730,8 +730,8 @@ def decode_obfuscated_rsa_keys():
     print(f"[*] PrivateKey: {len(private_key)} chars")
 
     # Decode
-    decoded_public = decode_rsa_key(public_key, "PublicKey")
-    decoded_private = decode_rsa_key(private_key, "PrivateKey")
+    decoded_public = deobfuscate_pem_data(public_key, "PublicKey")
+    decoded_private = deobfuscate_pem_data(private_key, "PrivateKey")
 
     # Only save valid PEM
     success = 0

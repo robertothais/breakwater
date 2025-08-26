@@ -1,0 +1,23 @@
+{
+  "name": "astx-oracle-demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "bun --watch index.ts",
+    "start": "NODE_ENV=production bun run ./index.ts -d"
+  },
+  "dependencies": {
+    "alpinejs": "^3.0.0",
+    "hono": "^4.9.4",
+    "zod": "^4.1.1"
+  },
+  "devDependencies": {
+    "@types/alpinejs": "^3.13.11",
+    "@types/bun": "latest",
+    "@types/node": "^24.3.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  }
+}

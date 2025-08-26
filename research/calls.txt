@@ -36,6 +36,12 @@ Gets a cert that makes get_pclog work
 
 {"alg":"1","cert1":"s7nuorznq7z82i_z2PzG2T_3mR0TrPYcm7EH2rWsNBwED3wYGTexlvuprcz32rGp6rnoocm_26ev6e_GoPGpAv-X6d_oz_6wkcN7Gvexo30Qd7nric0zGvvKdrGQqvnrrdGcD3zkdiYNqvnv2cYzG3zId6GGz_mg2cuzr7nxG6_NGVYir6_5Gv_K2erErQG6leNWN3niqrnorcm_Nnev6e_GGvGpmfY0GBEnLrm3m6ewGj60q7z826zumPGGirY5AnYusR0BLPWprr6s2e_pG3mjG6ppGvz826_t2BmjGrupdfN8AveLL6zR2PEsid-PL70nre0pk8ek6vJPz3YcAfzOSPSXzv0ELRGO27_527GfScYp6ohCGep0d80ckrIPqRGpArhIoj_DzshKq7_YGQrIAjeylvEcDPPnq3YDS8uC5Peal2Y2D8NKoceOzvGI2R6Yod0MNvG_SeLPLrvIzPW9LiNWoivx5PeeSxztr7zLr7NdqiNHl3KO63hQN_N0o7CTGe-ts70MGrzlonzsmilTSdzw6QGi6vnjAyw_2imEd7WWdvzl63hHGczbzT0LSQ_RXP_OzPwidv03lswXiR6-AiY7r8lXq_YMrrufSjlPkc6TGr_ad768A3GNGsJK5nLI2eGlAj_kq80Xod0l267IA3zlNxNwAd_socpcoeuvlr_dAQ6NdVYC6TzzD_e62RNXmr0_Dx0Wm7hu2dms2j0_djpo2rbxoTm5kiu_r6exkd-WA6VMN6Yiq8082cm_2r_r2rWsNBwEsR0MDrSWmTps26_TG7_pdPzprr6pLxznm__WG7wNm769dcGj2Rw0A3m-2c7MS_pX6vZxDe_W2ibndiY0oRGwk_ZXN3YzzrG7SsCOLd0L2rrni7GTAQvB6PNvlinOr7vtq7NtNvNHSnzpm_NQN3wazRm3zf0pqjmsdBwX5B666BPTm2Y9iQG_znNN5xLtlj6lSB0GAfGdzohM5x6CrRG0oT6tz606LTNzAjuEljNeDBhODR-n2PNgAP0wlyw0ddpfmeNxsj06S8euleNao6_Qoj7I6PYXDrnDmrwBiivt66Y8lfmti7zvz_mYl3zzmvzfldmHDRwrGi65l_rM2RYs2TGu2R7XSrEnkiukod0NSdpWic0nA8mlDr6yzczIoRzoA3hHoRzIrnmRGjmXS_eCoRZMm7NHrRGL2BCMleGIl7eYL6NMzZYoqihGoBZnrQNtiiu2dx0sirWzGOwuk_pp2QlWqcunGcu9SPLxq8LMGvvh92b*","ipaddr":"211.217.169.174","ncert":"1","nlog":"1","norsa":"0","result":"ACK","svr":"shinhanbank","uniq":"E89BFFA185B19806C3C608AED9D0329938F0344C998C6696D6020156DD0BB57D","utime":"1755098595","ver":"1"}
 
+// 8/25
+{"alg":"1","cert1":"s7nuorznq7z82i_z2PzG2T_3mR0TrPYcm7EH2rWsNBwED3wYGTexlvuprcz32rGp6rnoocm_26ev6e_GoPGpAv-X6d_oz_6wkcN7Gvexo30Qd7nric0zGvvKdrGQqvnrrdGcD3zkdiYNqvnv2cYzG3zId6GGz_mg2cuzr7nxG6_NGVYir6_5Gv_K2erErQG6leNWN3niqrnorcm_Nnev6e_GGvGpmfY0GBEnLrm3m6ewGj60q7z826zumPGGirY5AnYusR0BLPWprr6s2e_pG3mjG6ppGvz826_t2BmjGrupdfN8AveLL6zR2PEsid-PL70nre0pk8ek6vJPz3YcAfzOSPSXzv0ELRGO27_527GfScYp6ohCGep0d80ckrIPqRGpArhIoj_DzshKq7_YGQrIAjeylvEcDPPnq3YDS8uC5Peal2Y2D8NKoceOzvGI2R6Yod0MNvG_SeLPLrvIzPW9LiNWoivx5PeeSxztr7zLr7NdqiNHl3KO63hQN_N0o7CTGe-ts70MGrzlonzsmilTSdzw6QGi6vnjAyw_2imEd7WWdvzl63hHGczbzT0LSQ_RXP_OzPwidv03lswXiR6-AiY7r8lXq_YMrrufSjlPkc6TGr_ad768A3GNGsJK5nLI2eGlAj_kq80Xod0l267IA3zlNxNwAd_socpcoeuvlr_dAQ6NdVYC6TzzD_e62RNXmr0_Dx0Wm7hu2dms2j0_djpo2rbxoTm5kiu_r6exkd-WA6VMN6Yiq8082cm_2r_r2rWsNBwEsR0MDrSWmTps26_TG7_pdPzprr6pLxznm__WG7wNm769dcGj2Rw0A3m-2c7MS_pX6vZxDe_W2ibndiY0oRGwk_ZXN3YzzrG7SsCOLd0L2rrni7GTAQvB6PNvlinOr7vtq7NtNvNHSnzpm_NQN3wazRm3zf0pqjmsdBwX5B666BPTm2Y9iQG_znNN5xLtlj6lSB0GAfGdzohM5x6CrRG0oT6tz606LTNzAjuEljNeDBhODR-n2PNgAP0wlyw0ddpfmeNxsj06S8euleNao6_Qoj7I6PYXDrnDmrwBiivt66Y8lfmti7zvz_mYl3zzmvzfldmHDRwrGi65l_rM2RYs2TGu2R7XSrEnkiukod0NSdpWic0nA8mlDr6yzczIoRzoA3hHoRzIrnmRGjmXS_eCoRZMm7NHrRGL2BCMleGIl7eYL6NMzZYoqihGoBZnrQNtiiu2dx0sirWzGOwuk_pp2QlWqcunGcu9SPLxq8LMGvvh92b*","ipaddr":"211.217.169.174","ncert":"1","nlog":"1","norsa":"0","result":"ACK","svr":"shinhanbank","uniq":"E89BFFA185B19806C3C608AED9D0329938F0344C998C6696D6020156DD0BB57D","utime":"1756111862","ver":"1"}
+
+
+
+
 
 https://lx.astxsvc.com:55920/ASTX2/set_cert?v=3&step=1&cert=s7nuorznq7z82i_z2PzG2T_3mR0TrPYcm7EH2rWsNBwED3wYGTexlvuprcz32rGp6rnoocm_26ev6e_GoPGpAv-X6d_oz_6wkcN7Gvexo30Qd7nric0zGvvKdrGQqvnrrdGcD3zkdiYNqvnv2cYzG3zId6GGz_mg2cuzr7nxG6_NGVYir6_5Gv_K2erErQG6leNWN3niqrnorcm_Nnev6e_GGvGpmfY0GBEnLrm3m6ewGj60q7z826zumPGGirY5AnYusR0BLPWprr6s2e_pG3mjG6ppGvz826_t2BmjGrupdfN8AveLL6zR2PEsid-PL70nre0pk8ek6vJPz3YcAfzOSPSXzv0ELRGO27_527GfScYp6ohCGep0d80ckrIPqRGpArhIoj_DzshKq7_YGQrIAjeylvEcDPPnq3YDS8uC5Peal2Y2D8NKoceOzvGI2R6Yod0MNvG_SeLPLrvIzPW9LiNWoivx5PeeSxztr7zLr7NdqiNHl3KO63hQN_N0o7CTGe-ts70MGrzlonzsmilTSdzw6QGi6vnjAyw_2imEd7WWdvzl63hHGczbzT0LSQ_RXP_OzPwidv03lswXiR6-AiY7r8lXq_YMrrufSjlPkc6TGr_ad768A3GNGsJK5nLI2eGlAj_kq80Xod0l267IA3zlNxNwAd_socpcoeuvlr_dAQ6NdVYC6TzzD_e62RNXmr0_Dx0Wm7hu2dms2j0_djpo2rbxoTm5kiu_r6exkd-WA6VMN6Yiq8082cm_2r_r2rWsNBwEsR0MDrSWmTps26_TG7_pdPzprr6pLxznm__WG7wNm769dcGj2Rw0A3m-2c7MS_pX6vZxDe_W2ibndiY0oRGwk_ZXN3YzzrG7SsCOLd0L2rrni7GTAQvB6PNvlinOr7vtq7NtNvNHSnzpm_NQN3wazRm3zf0pqjmsdBwX5B666BPTm2Y9iQG_znNN5xLtlj6lSB0GAfGdzohM5x6CrRG0oT6tz606LTNzAjuEljNeDBhODR-n2PNgAP0wlyw0ddpfmeNxsj06S8euleNao6_Qoj7I6PYXDrnDmrwBiivt66Y8lfmti7zvz_mYl3zzmvzfldmHDRwrGi65l_rM2RYs2TGu2R7XSrEnkiukod0NSdpWic0nA8mlDr6yzczIoRzoA3hHoRzIrnmRGjmXS_eCoRZMm7NHrRGL2BCMleGIl7eYL6NMzZYoqihGoBZnrQNtiiu2dx0sirWzGOwuk_pp2QlWqcunGcu9SPLxq8LMGvvh92b*&pageid=1755090254329&callback=jQuery1113011939648502115907_1755090256857&_=1755090256873
 
@@ -49,19 +55,7 @@ GET https://lx.astxsvc.com:55920/ASTX2/get_pclog
 
 (Any site can hit your **local** daemon on 127.0.0.1 via this origin; the daemon doesn’t require same-origin.)
 
-# Common query params
 
-* `v`, `ver` — protocol/app version (just logged).
-* `alg` — **how the payload is encoded**:
-
-  * `1` = only **custom-Base64** decode (no RSA/AES).
-  * `2` or `3` = **RSA-wrapped AES** (RSA decrypt AES key, then AES-CBC decrypt data).
-* `svr` — server/bank tag for logging.
-* `norsa` — flag (0/1) that ends up in logs/UI.
-* `uniq` — per-client token/ID (freeform; just logged).
-* `utime` — epoch seconds (logged).
-* `nlog`, `ipaddr`, `pageid`, `opt` — misc metadata for logs.
-* `callback` + `_` — JSONP wrapper and cache-buster.
 
 ## Payload params (depend on `alg`)
 
@@ -127,5 +121,38 @@ GET /ASTX2/get_pclog
 
 # Practical upshot
 
-* With `alg=1`: anyone with the **salt** can send `data_encoded` using the custom alphabet and the daemon will just decode it.
-* With `alg=2/3`: **any site** can use the public key from `/hello`, wrap an AES key, and the daemon will act as a **local RSA→AES decryption oracle**, returning plaintext in `pclog_data`—because the daemon has the matching private key locally.
+Calls
+
+curl 'http://localhost:8080/ASTX2/hello?v=3&callback=jQuery1710702995615628861_1755929815745&_=1755929817471' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'Referer: https://bank.shinhan.com/' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"' \
+  -H 'sec-ch-ua-mobile: ?0'
+
+curl 'http://localhost:8080/ASTX2/initForML?v=3&pageid=1755930868412&focus=1&callback=jQuery17103846223489347852_1755930868476&_=1755930870325' \
+  -H 'Accept: */*' \
+  -H 'Accept-Language: en-US,en;q=0.9' \
+  -H 'Connection: keep-alive' \
+  -H 'Sec-Fetch-Dest: script' \
+  -H 'Sec-Fetch-Mode: no-cors' \
+  -H 'Sec-Fetch-Site: cross-site' \
+  -H 'Sec-Fetch-Storage-Access: active' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"' \
+  -H 'sec-ch-ua-mobile: ?0' \
+  -H 'sec-ch-ua-platform: "macOS"'
+
+  curl 'https://lx.astxsvc.com:55920/ASTX2/alive?v=3&pageid=1755930868412&focus=0&callback=jQuery1113014393488659870401_1755930870591&_=1755930870593' \
+  -H 'sec-ch-ua-platform: "macOS"' \
+  -H 'Referer: https://bank.shinhan.com/' \
+  -H 'User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36' \
+  -H 'sec-ch-ua: "Not;A=Brand";v="99", "Google Chrome";v="139", "Chromium";v="139"' \
+  -H 'sec-ch-ua-mobile: ?0'
+
+
+Real pclog
+jQuery111309815169616335053_1756111778824({
+    "pclog_data": "SB_Cm8PIlT2OujNeSQPEuR_CNTPEujN0A3ShlsNaAxuTLdPKuRWtNiWQ9dVRDB6W9iKnzxmINBmHXPmxryJMd7heNclB2i6tAj0NXPW0S7lTNjGao3NHGizf6RGR5PzwG7YdAQvT6TvxmiNe630766YwqrmDm308oxYE6_ps26btAcNIdrGDmvJBr66iGnuGGiweGTvxd3moDB0edPNMSxNNqr0j6867mT0Nlj09zvEjdnuG68mDSc6zm8zcdxzpormy2cGOXxrIm32xG3EtGe-P6QzKl8upDi-B6n0KG8LxD3ueA3rEGvNnif_Ck3uuzvnBAx6XzeYESnSEXxekqfmRrPhimeuNL7m0ziZKmrWzzjunodlBNeZnGnp9mreHr7_9ABW26d_Ik6-ENRudNf_ClBnRS8unl607Dn7ENvhYk3WjG3G6LdlOmQpvNfeuzcNiATmzmemuAiw56i00iiG0STNWSPGGl67t2BneSowcAfNzkrWtLdzllRup2cuQDdmdGnzKrdPhuj6aDcvhNeYGN36LmiJxDv_emRnfL67TSc0Rzi6RcPWplczFNQ-IlP_fNBWQzRrnLPYBzvebii0u26eFG32To7NHDB0XS_-nGfZIof_-NiWfdRbPzRKO6iE75onRlT-Pz82xcxYdm70ecOPKmc-Tmi6GrQ6nmQlTNi0oi8ZIDjvBGOn3ideyziNoD7WfiflKLemoSdz9uj6PDine9dvxzdLEldvIzQ-RN3_PLdnylne6LjvBkiLnGfmF5i6L6ynfmRubrd0g5iubN6bx2ynldPGBS6eBcPYnriN-m6JOzdZKirYNNQ0F2iJOz3NairYnzoPw2nrINRLTLe6QAB6Dlj0Rd7N-ln0ncBuDSRGTDf0XlQzNzQebzRzMo7_PNnYXzBNn2d-TN7SIlRneq3bPGxGod7LBDQzpD3NdzRnFS67PNTpEodmcS77IN7_are0Hz8-PrcZOAj_7GPGuS_uwmdmjmcY-mj_9liunGQegzi6eDRIx2yn32cZT6r_v6ehHcBrTGebxAe_LNOnpk8uR2cbwAd0cGB002iuwN6mjGjYOidG3lxzwk_rxojbTlB0Go3u6GP0BSrNOGP0pLd0-Ni_Nzf6vk3WC2jzRl7uBAQ0Bi66RLiYvGx-OcPSINdzNAondSjZTGR6Q5rGvzfNRmdvTSrGclBNNAB6LGjNjScYvGnZIoRCPN6NoDveOlQppmBbPoRERNRNslR09m_uE2c_R66_a672BrdlTqi0FlxzccOnRA7mkqQ_jij6CNTpHd8zFLB0elvmucBWfd8zL2iZIcPSP6ehHlQ0k2drxojrEk_YXl8uRrcLOi8NRNdz9STuDNiwRo7_wkf63ormEoRGFmi6uDQznqiuDGn6ozvmTGPNGlB-Pdn-TGe_iNi09k3uvGQuNNRN6rjrIzdm-miWT6iu7Sn6EmBw-GRKI5rbKLQppcB-KGTrOd7N6cnYNSyn3rc6ND8G0k8pp2iwXLTpgGvNTlPZOmPSKqR6y6TND5inHdQuFN6mfSrN3cT6HdRuRGj2x5dGXrQpTD3bPdPLTmdmbksnEmxzENc0jzr_XGB0nkdz3iduocxbIlx6Nrjz3NiZOS6_3iiWpAPmFir0RS6eElBIx6T0ni60Ri3_tNOnRmjzbrrmflf6plQlBqQuk2rYoAiEccTpR6B6nrd6NAj6CNeZBziNb2B2xlTZWSTpncTm-Ne6edjbEGP0eNduvmdzf5rmcSB036rmBzR_FlB6ek66ercz-miGBdeePNRWRl6hLmrGfmc6e6RWQmT0vSiZwi7YBcx_nA3uFLP0ecPmXNeh3DfzXmd7IN7mTid6fATuXirLOi80bi66nz8mEzRnT66_BmezOoRuDL6zFzd065r2Ili-wNd6RNR6Blj68orm6GnlIo8ZPlQ6Wo_uFNdlIz8Znk3WGD806rrmMD_eKidpeA8lK26hFcx6XNnhvLdlTleSOlvmTlTpfld0bGBweGevKlPGNGjNLLdZOiRrO6eh82Qu32PZIDvbxGTppATm3LTSxlPNOST2TN_h-icNfcPmWlTzHle-Pk3zT6ie0kf6HGBYwN6ZINRzsrRNplrm-SdGjlv_-LynuAfLTmc7TGvJnNdlIlimFNRZTz6_cirGXSnh3miWF5dNui60_o_hDzemo6ilOr7W8DvmLGnbOo_eoki0uN8-TormjGQ07Lyn3AnhXLP0olfYHNnbBSeecGrZI5dLTr7GuA3uEoRneSrhpN7WQA67nLQGei7rPl7NfSehFNrZxNeebLQ6piynkNRGfGj_9",
+    "result": "ACK"
+})

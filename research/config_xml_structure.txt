@@ -1,0 +1,32 @@
+Derived from xpath retreivals
+
+<?xml version="1.0" encoding="UTF-8"?>
+<ConfigurationFile schemaVersion="1.0">
+  <Rules>
+
+    <ProgramRules>
+      <!-- action: numeric (0/1), appname/apppath: strings -->
+      <!-- Uniqueness keyed by (appname, apppath) -->
+      <ProgramRule appname="firefox"  apppath="/usr/bin/firefox"  action="1"/>
+      <ProgramRule appname="chrome"   apppath="/usr/bin/google-chrome" action="1"/>
+      <ProgramRule appname="badtool"  apppath="/opt/bad/tool"     action="0"/>
+    </ProgramRules>
+
+    <NetworkRules>
+      <!-- ipaddress1/ipaddress2 used in a unique-key XPath -->
+      <!-- Likely additional attributes: port, protocol, direction, action -->
+      <!-- Keep tokens short (<=15 chars) for the 0x24 struct short fields -->
+      <!-- Examples: -->
+      <NetworkRule ipaddress1="0.0.0.0/0" ipaddress2="0.0.0.0/0"
+                   protocol="tcp" direction="out" port="443" action="1"/>
+      <NetworkRule ipaddress1="10.0.0.0/8" ipaddress2="0.0.0.0/0"
+                   protocol="udp" direction="out" port="53"  action="1"/>
+      <NetworkRule ipaddress1="0.0.0.0/0" ipaddress2="203.0.113.0/24"
+                   protocol="any" direction="in"  port="0"   action="0"/>
+    </NetworkRules>
+
+  </Rules>
+
+  <!-- Log block seen in your default -->
+  <Log level="1" policy="30" outbound="0"/>
+</ConfigurationFile>
